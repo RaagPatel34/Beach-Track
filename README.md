@@ -10,4 +10,4 @@ Currently merged our current completed portions from our branches. Keep in mind 
 
 You will need to ask Roger for:
 - The information held in the .env.local file (in order to use Clerk)
-- 
+
