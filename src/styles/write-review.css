@@ -1,0 +1,178 @@
+/* Write Review specific styles */
+
+
+.write-review-container {
+    min-height: calc(100vh - 100px); /* Adjust for navbar height */
+    background: linear-gradient(#eba91b, #312700);
+    font-family: 'Trebuchet MS', sans-serif;
+    position: relative;
+  }
+
+  .gray-container {
+    background-color: #f6f6f6; /* Light gray */
+    border-radius: 1.5rem; /* Same as .review-card */
+    padding: 1.5rem; /* Inner padding */
+    margin-top: 1.5rem; /* Space between timestamp and gray container */
+    margin-bottom: 3rem; /* Space for buttons */
+    position: relative; /* Ensures child elements stay inside */
+  }
+  
+  .content-wrapper {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative; /* Ensures buttons stay within bounds */
+  }
+  
+  .review-card {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    padding-bottom: 3.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  .card-header {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: center; /* Horizontally center items */
+    gap: 1rem; /* Space between items */
+    margin-bottom: 1rem;
+    text-align: center; /* Ensures text alignment within the card */
+}
+  
+  .card-header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: -0.8rem;
+  }
+  
+  .back-button {
+    background-color: #eba91b;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 2.5rem;
+    cursor: pointer;
+    font-family: 'Trebuchet MS', sans-serif;
+    position: absolute; /* Places button at bottom-left */
+    bottom: 2rem;
+    left: 2rem;
+  }
+  
+  .back-button:hover {
+    background-color: #d99b18;
+  }
+  
+  /* Center alignment for timestamp */
+.timestamp {
+    text-align: center; /* Horizontally center the date text */
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: -0.5rem;
+    margin-bottom: 0.5rem;
+}
+  
+  .course-info {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: center; /* Horizontally center items */
+    gap: 0.5rem; /* Space between the dot and text */
+    margin-bottom: 1rem;
+    text-align: center; /* Ensures the text is centered */
+}
+  
+  .status-dot {
+    width: 12px;
+    height: 12px;
+    background-color: #2ecc71;
+    border-radius: 50%;
+  }
+  
+  .course-code {
+    font-size: 1.5rem;
+  }
+  
+  .rating-section, .comment-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .rating-section label, .comment-section label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .rating-input {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  
+  .rating-input input {
+    width: 4rem;
+    padding: 0.25rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    font-family: 'Trebuchet MS', sans-serif;
+  }
+  
+  .comment-section textarea {
+    width: 100%;
+    height: 150px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    resize: vertical;
+    font-family: 'Trebuchet MS', sans-serif;
+  }
+
+  .char-counter {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+    text-align: right;
+  }
+  
+  .notice {
+    color: #666;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 2.5rem;
+  }
+  
+  .post-button {
+    background-color: #eba91b;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3rem;
+    cursor: pointer;
+    float: right;
+    font-family: 'Trebuchet MS', sans-serif;
+    position: absolute; /* Ensures proper placement */
+    bottom: 2rem;
+    right: 2rem;
+  }
+  
+  .post-button:hover {
+    background-color: #d99b18;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .content-wrapper {
+      padding: 1rem;
+    }
+    
+    .review-card {
+      padding: 1.5rem;
+    }
+
+    .back-button, .post-button {
+        bottom: 0.5rem; /* Adjust for smaller screens */
+        font-size: 0.9rem;
+    }
+  }
