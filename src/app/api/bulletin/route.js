@@ -26,9 +26,11 @@ export async function POST(request){
     const formData = await request.formData();
         const bulletinData = {
             title: `${formData.get('title')}`,
+            type: `${formData.get('type')}`,
             author: `${formData.get('author')}`,
             date: `${formData.get('date')}`,
-            time: `${formData.get('time')}`,
+            startTime: `${formData.get('startTime')}`,
+            endTime: `${formData.get('endTime')}`,
             location: `${formData.get('location')}`,
             description: `${formData.get('description')}`    
         }
