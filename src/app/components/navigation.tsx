@@ -22,14 +22,14 @@ export const Navigation = () => {
 
             {/* Navigation and user actions */}
             <div className="flex items-center space-x-6">
-                <Link
+                <a
                     href="/"
                     className={`${
                         pathname === "/" ? "font-bold" : "text-blue-500"
                     }`}
                 >
                     Home
-                </Link>
+                </a>
                 <SignedOut>
                     <SignInButton mode="modal" />
                 </SignedOut>
