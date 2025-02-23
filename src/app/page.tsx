@@ -16,7 +16,11 @@ export default function Home() {
       case 'openRooms':
         return <div className="no-content-message"></div>;
       case 'events':
-        return <div className="no-content-message">Log in to create/join events!</div>;
+        return (
+            <a href="/create-event">
+              <button className='create-event-button'> Click to Create an Event! </button>
+            </a>
+        );
       default:
         return null;
     }
