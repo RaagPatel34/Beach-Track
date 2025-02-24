@@ -2,7 +2,7 @@
 
 ## Update 2 (2/23/2025)
 - Within "app/styles/homepage.css" styling was added for the 'create-event-button' found within "app/page.tsx
-- 
+  
 ## Update 1 (2/22/2025)
 The following files were changed:
 - The "app/page.tsx" was changed, a button can be found in the 'getTabContent' function where when click will redirect the user to the create event tab
