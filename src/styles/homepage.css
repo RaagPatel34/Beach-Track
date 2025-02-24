@@ -151,6 +151,21 @@ body {
     font-style: italic;
 }
 
+/* Modifies the create event button */
+.create-event-button{
+    color: white;
+    background: #eba91b;
+    display: block;  /* Centering*/
+    margin: 0 auto;  /* Centering*/
+    padding: 10px 20px; /* Adjust padding as needed */
+    border-radius: 5px; /* Higher value = more rounded corners */
+    font-weight: bold;
+}
+
+.create-event-button:hover{
+    background: #f5c24c;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .content-wrapper {
