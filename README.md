@@ -3,6 +3,7 @@
 ## Update 3 (2/27/2025)
 - A new component was added in "app/components/EventList.tsx" that will be called from "app/page.tsx". Handles everything found on the event tab.
 - A new .css page was added to "app/styles/event-list.css" that handles all styling for things related to the event tab.
+- Updated the "app/create-event/page.tsx" retrieves clerk data, specifically the username of a person.
 - Added an import to the "app/page.tsx" so that 'EventList' can be called. Also removed and moved the button call for creating an event, as well as the styling from the previous update.
 - Updated the api route for the GET request in bulletin.
 
