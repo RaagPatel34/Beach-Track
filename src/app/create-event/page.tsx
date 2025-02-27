@@ -1,6 +1,6 @@
 "use client";
 import "../../styles/create-event.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { useUser } from "@clerk/nextjs";
