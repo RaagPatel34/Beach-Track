@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import "../styles/homepage.css";
+import EventList from "./components/EventList"
 import dynamic from "next/dynamic";
 
 const DynamicMap = dynamic(() => import("./components/Map"), { ssr: false });
@@ -17,9 +18,7 @@ export default function Home() {
         return <div className="no-content-message"></div>;
       case 'events':
         return (
-            <a href="/create-event">
-              <button className='create-event-button'> Click to Create an Event! </button>
-            </a>
+          <EventList />
         );
       default:
         return null;
