@@ -9,16 +9,9 @@ const LoadDB = async () => {
 LoadDB();
 
 // API portion for GETting bulletin posts
-export async function GET(request){
-    const bulletinId = request.nextUrl.searchParams.get("id");
-    if (bulletinId) {
-        const bulletin = await bulletinModel.findById(bulletinId);
-        return NextResponse.json(bulletin);
-    }
-    else{
-        const bulletins = await bulletinModel.find({});
-        return NextResponse.json({bulletins})
-    }
+export async function GET(){
+    const bulletins = await bulletinModel.find({});
+    return NextResponse.json({bulletins})
 }
 
 // API portion for POSTing bulletin posts
