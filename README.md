@@ -1,4 +1,11 @@
 # BeachTrack
+## Update 3 (2/27/2025)
+Merged the create-event-functionality branch. The following files were changed/added:
+- "src/app/styles/event-list.css" (Added)
+- "src/app/page.tsx" (Modified)
+- "src/app/components/EventList.tsx" (Added)
+- "src/middleware" (Modified)
+- "src/app/create-event/page.tsx" (Modified)
 ## Update 2 (2/18/2025)
 Currently merged our current completed portions from both bulletin branches. The following files were changed/added:
 - "src/app/api/bulletin/route" (Modified)
