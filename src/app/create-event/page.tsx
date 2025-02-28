@@ -1,8 +1,9 @@
 "use client";
 import "../../styles/create-event.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { toast } from "react-toastify";
+import { useUser } from "@clerk/nextjs";
 
 export default function CreateEvent() {
   const [description, setDescription] = useState("");
@@ -11,11 +12,22 @@ export default function CreateEvent() {
   const [title, setTitle] = useState("");
   const maxTitleLength = 25;
 
+  const { user } = useUser();
+  const [author, setAuthor] = useState("Unknown");
+
   const [selectedDate, setSelectedDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
   const [eventType, setEventType] = useState("");
+
+    /* Use this to re-render the useUser since user may be originally undefined before clerk can load
+     the data */
+  useEffect(() => {
+    if (user?.username) {
+      setAuthor(user.username);
+    }
+  }, [user]);
 
   /*
   const [data, setData] = useState({
@@ -67,7 +79,7 @@ export default function CreateEvent() {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('type', eventType);
-    formData.append('author', "testing");
+    formData.append('author', author);
     formData.append('date', selectedDate);
     formData.append('startTime', startTime);
     formData.append('endTime', endTime);

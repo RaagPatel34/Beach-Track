@@ -1,0 +1,90 @@
+/* Styling for the display of all the events */
+.container{
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center center horizontally */
+    gap: 20px;
+}
+
+.rectangle{
+    width: 100%; /* Adjust as needed */
+    height: 100px;
+    border-radius: 5px;
+    background: rgb(228, 227, 227);
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: center; /* Center title horizontally */
+}
+
+.event-title{
+    font-weight: bold;
+    font-size: 18px
+}
+
+.event-author{
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.onClickRectangle{
+    width: 100%; /* Adjust as needed */
+    height: 500px;
+    border-radius: 5px;
+    background: rgb(228, 227, 227);
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: center; /* Center title horizontally */
+    gap: 5px;
+    position: relative; /* Needed for absolute  positioning of child elements*/
+}
+
+/* The "X" button that exists the selected event */
+.closeView{
+    position: relative;
+    /*top: -220px; /* Adjust as needed 
+    right: -150px; /* Adjust as needed */
+    background: red;
+    color: white;
+    border: none;
+    padding: 2px 6px; /* Sizing of the border around the "X"*/
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.closeView:hover{
+    background: rgb(255, 77, 77);
+}
+
+.onClickTitle{
+    font-weight: bold;
+    font-size: 24px
+}
+
+.onClickAuthor{
+    font-weight: bold;
+}
+
+.onClickStartEnd{
+    font-weight: bold;
+}
+
+.onClickDescription{
+    font-weight: bold;
+}
+
+/* Modifies the create event button */
+.create-event-button{
+    color: white;
+    background: #eba91b;
+    display: block;  /* Centering*/
+    margin: 0 auto;  /* Centering*/
+    padding: 10px 20px; /* Adjust padding as needed */
+    border-radius: 5px; /* Higher value = more rounded corners */
+    font-weight: bold;
+}
+
+.create-event-button:hover{
+    background: #f5c24c;
+}
