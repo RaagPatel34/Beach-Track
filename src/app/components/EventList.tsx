@@ -43,10 +43,13 @@ const EventList = () => {
                 </button>
                 <h1 className="onClickTitle"> {selectedEvent.title} </h1>
                 <p className="onClickAuthor"> 
-                    By: {selectedEvent.author} on{' '} {new Date(selectedEvent.date).toLocaleDateString()}
+                    By: {selectedEvent.author}
+                </p>
+                <p className="onClickDate">
+                    When:{' '} {new Date(selectedEvent.date).toLocaleDateString()}
                 </p>
                 <p className="onClickStartEnd"> 
-                    Start Time: {selectedEvent.startTime} | End Time: {selectedEvent.endTime}
+                    Start Time: {selectedEvent.startTime} | End Time: {selectedEvent.endTime} 
                 </p>
                 <p className="onClickDescription">
                     {selectedEvent.description}
