@@ -30,12 +30,13 @@
 .onClickRectangle{
     width: 100%; /* Adjust as needed */
     height: 500px;
+    padding: 20px; /* Adds space inside the rectangle */
     border-radius: 5px;
     background: rgb(228, 227, 227);
     display: flex; /* Ensure content inside is properly displayed */
     flex-direction: column; /* Aligns the children in a column rather than a row*/
     align-items: center; /* Align title vertically */
-    justify-content: center; /* Center title horizontally */
+    justify-content: flex-start; /* Center title horizontally */
     gap: 5px;
     position: relative; /* Needed for absolute  positioning of child elements*/
 }
@@ -43,8 +44,7 @@
 /* The "X" button that exists the selected event */
 .closeView{
     position: relative;
-    /*top: -220px; /* Adjust as needed 
-    right: -150px; /* Adjust as needed */
+    right: -150px;
     background: red;
     color: white;
     border: none;
@@ -63,15 +63,24 @@
 }
 
 .onClickAuthor{
-    font-weight: bold;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.onClickDate{
+    font-style: italic;
+    font-size: 18px;
 }
 
 .onClickStartEnd{
-    font-weight: bold;
+    font-style: italic;
+    font-size: 18px;
 }
 
 .onClickDescription{
-    font-weight: bold;
+    font-size: 14px;
+    word-wrap: break-word; /* Ensures long words don't overflow */
+    padding: 10px; /* Adds spacing inside the description */
 }
 
 /* Modifies the create event button */

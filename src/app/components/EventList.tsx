@@ -43,10 +43,13 @@ const EventList = () => {
                 </button>
                 <h1 className="onClickTitle"> {selectedEvent.title} </h1>
                 <p className="onClickAuthor"> 
-                    By: {selectedEvent.author} on{' '} {new Date(selectedEvent.date).toLocaleDateString()}
+                    By: {selectedEvent.author}
+                </p>
+                <p className="onClickDate">
+                    When:{' '} {new Date(selectedEvent.date).toLocaleDateString()}
                 </p>
                 <p className="onClickStartEnd"> 
-                    Start Time: {selectedEvent.startTime} | End Time: {selectedEvent.endTime}
+                    Start Time: {selectedEvent.startTime} | End Time: {selectedEvent.endTime} 
                 </p>
                 <p className="onClickDescription">
                     {selectedEvent.description}
@@ -55,19 +58,32 @@ const EventList = () => {
         );
     }
 
-    return(
-        <div className="container">
-            {events?.map((event) => (
-                <div key={event._id} onClick={() => setSelectedEvent(event)} className="rectangle">
-                    <h2 className="event-title"> {event.title} </h2>
-                    <p className="event-author"> By: {event.author} </p>
-                </div>
-            ))}
+    return (
+        <>
+            <div className="mainContainer">
+                <div className="container">
+                    {events
+                    ?.sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by newest first
+                    .slice(0, 3) // Take only the first 3
+                    .map((event) => (
+                        <button key={event._id} onClick={() => setSelectedEvent(event)} className="rectangle">
+                            <h2 className="eventTitle"> {event.title} </h2>
+                            <p className="eventAuthor"> By: {event.author} </p>
+                        </button>
+                    ))}
 
-            <a href="/create-event">
-              <button className='create-event-button'> Click to Create an Event! </button>
-            </a>
-        </div>
+                </div>
+
+                <button className="goToBulletin">
+                    View Bulletin
+                </button>
+
+
+                <a href="/create-event">
+                    <button className='createEventButton'> Click to Create an Event! </button>
+                </a>
+            </div>
+        </>
     );
 }
 
