@@ -1,8 +1,8 @@
-.main-container{
+.mainContainer{
     display: flex;
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center center horizontally */
-    gap: 20px;
+    gap: 10px;
 }
 
 /* Styling for the display of all the events */
@@ -10,10 +10,7 @@
     display: flex;
     flex-direction: column; /* Stack children vertically */
     align-items: center; /* Center center horizontally */
-    gap: 20px;
-    max-height: 60vh; /* Adjust this value as needed */
-    overflow-y: auto; /* Enables scrolling when content overflows */
-    width: 100%; /* Ensure it takes full width */
+    gap: 10px;
     padding: 30px;
 }
 
@@ -28,14 +25,18 @@
     justify-content: center; /* Center title horizontally */
 }
 
-.event-title{
-    font-weight: bold;
-    font-size: 17px
+.rectangle:hover{
+    background: rgb(193, 192, 192);
 }
 
-.event-author{
+.eventTitle{
     font-weight: bold;
-    font-size: 11px;
+    font-size: 18px
+}
+
+.eventAuthor{
+    font-weight: bold;
+    font-size: 12px;
 }
 
 .onClickRectangle{
@@ -94,9 +95,21 @@
     padding: 10px; /* Adds spacing inside the description */
     max-width: 100%;
 }
+/* Modifies the both filter buttons */
+.goToBulletin{
+    color: white;
+    background: blue;
+    padding: 10px 20px; /* Adjust padding as needed */
+    border-radius: 5px; /* Higher value = more rounded corners */
+    font-weight: bold;
+}
+
+.goToBulletin:hover{
+    background: rgb(90, 90, 255);
+}
 
 /* Modifies the create event button */
-.create-event-button{
+.createEventButton{
     color: white;
     background: #eba91b;
     display: block;  /* Centering*/
@@ -106,6 +119,6 @@
     font-weight: bold;
 }
 
-.create-event-button:hover{
+.createEventButton:hover{
     background: #f5c24c;
 }
