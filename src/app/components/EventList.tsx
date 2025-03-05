@@ -58,19 +58,23 @@ const EventList = () => {
         );
     }
 
-    return(
-        <div className="container">
-            {events?.map((event) => (
-                <div key={event._id} onClick={() => setSelectedEvent(event)} className="rectangle">
-                    <h2 className="event-title"> {event.title} </h2>
-                    <p className="event-author"> By: {event.author} </p>
-                </div>
-            ))}
+    return (
+        <>
+            <div className="main-container">
+                <div className="container">
+                    {events?.map((event) => (
+                        <div key={event._id} onClick={() => setSelectedEvent(event)} className="rectangle">
+                            <h2 className="event-title"> {event.title} </h2>
+                            <p className="event-author"> By: {event.author} </p>
+                        </div>
+                    ))}
 
-            <a href="/create-event">
-              <button className='create-event-button'> Click to Create an Event! </button>
-            </a>
-        </div>
+                </div>
+                <a href="/create-event">
+                    <button className='create-event-button'> Click to Create an Event! </button>
+                </a>
+            </div>
+        </>
     );
 }
 
