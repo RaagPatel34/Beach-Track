@@ -60,18 +60,27 @@ const EventList = () => {
 
     return (
         <>
-            <div className="main-container">
+            <div className="mainContainer">
                 <div className="container">
-                    {events?.map((event) => (
-                        <div key={event._id} onClick={() => setSelectedEvent(event)} className="rectangle">
-                            <h2 className="event-title"> {event.title} </h2>
-                            <p className="event-author"> By: {event.author} </p>
-                        </div>
+                    {events
+                    ?.sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by newest first
+                    .slice(0, 3) // Take only the first 3
+                    .map((event) => (
+                        <button key={event._id} onClick={() => setSelectedEvent(event)} className="rectangle">
+                            <h2 className="eventTitle"> {event.title} </h2>
+                            <p className="eventAuthor"> By: {event.author} </p>
+                        </button>
                     ))}
 
                 </div>
+
+                <button className="goToBulletin">
+                    View Bulletin
+                </button>
+
+
                 <a href="/create-event">
-                    <button className='create-event-button'> Click to Create an Event! </button>
+                    <button className='createEventButton'> Click to Create an Event! </button>
                 </a>
             </div>
         </>
