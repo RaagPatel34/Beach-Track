@@ -58,12 +58,16 @@ const EventList = () => {
         );
     }
 
-    return (
+return (
         <>
             <div className="mainContainer">
+                <div className="rectangleTitle">
+                    Upcoming Events Around CSULB!
+                </div>
+
                 <div className="container">
                     {events
-                    ?.sort((a, b) => new Date(b.date) - new Date(a.date)) // Sort by newest first
+                    ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Sort by newest first
                     .slice(0, 3) // Take only the first 3
                     .map((event) => (
                         <button key={event._id} onClick={() => setSelectedEvent(event)} className="rectangle">
@@ -73,15 +77,11 @@ const EventList = () => {
                     ))}
 
                 </div>
-
-                <button className="goToBulletin">
-                    View Bulletin
+  
+                <button className='goToBulletin'> 
+                    Click to View Bulletin! 
                 </button>
-
-
-                <a href="/create-event">
-                    <button className='createEventButton'> Click to Create an Event! </button>
-                </a>
+                
             </div>
         </>
     );
