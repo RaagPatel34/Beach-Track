@@ -1,4 +1,9 @@
 # BeachTrack
+## Update 4 (3/6/2025)
+Branched from prototype to update changes for map widgets/building information tabs
+- "src/app/components/Map.tsx" (Modified)
+- "src/app/page.tsx" (Modified)
+- "src/app/styles/homepage.css" (Modified)
 ## Update 3 (2/27/2025)
 Merged the create-event-functionality branch. The following files were changed/added:
 - "src/app/styles/event-list.css" (Added)
