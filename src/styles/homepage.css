@@ -70,6 +70,13 @@ body {
     font-size: 1.2rem;
 }
 
+.sidebar-building-name {
+    background-color: blue;
+    color: white;
+    text-align: center;
+    padding: 18px;
+}
+
 /* Tab Navigation (hover over other tabs) */
 .tab-navigation {
     display: flex;
