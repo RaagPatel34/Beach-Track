@@ -1,5 +1,5 @@
 "use client";
-
+import EventList from "./components/EventList"
 import { useState } from "react";
 import "../styles/homepage.css";
 import dynamic from "next/dynamic";
@@ -78,7 +78,7 @@ export default function Home() {
                             <div className="content-area">
                                 {activeTab === "favorite" && <div className="no-content-message">No favorite classrooms</div>}
                                 {activeTab === "openRooms" && <div className="no-content-message"></div>}
-                                {activeTab === "events" && <div className="no-content-message">Log in to create/join events!</div>}
+                                {activeTab === "events" && <div className="no-content-message"><EventList /></div>}
                             </div>
                         </>
                     )}
