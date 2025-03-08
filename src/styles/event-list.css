@@ -33,6 +33,7 @@
     height: 70px;
     border-radius: 10px;
     background: rgb(228, 227, 227);
+    color: black;
     display: flex; /* Ensure content inside is properly displayed */
     flex-direction: column; /* Aligns the children in a column rather than a row*/
     align-items: center; /* Align title vertically */
