@@ -43,6 +43,27 @@ nav {
     font-size: 1rem;
     cursor: pointer;
 }
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-item {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+
+.pagination-buttons button{
+    background: none;
+    border: none;
+    color: black;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 90px;
+}
 
 html, body, #__next {
     height: 100%;
