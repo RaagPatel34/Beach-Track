@@ -34,7 +34,8 @@ body {
 
 /* Search bar styles */
 .search-wrapper {
-    margin-bottom: 0; /* Changed from 20px to 0 */
+    margin-bottom: 0;
+    /* Changed from 20px to 0 */
 }
 
 .search-bar {
@@ -71,10 +72,11 @@ body {
 }
 
 .sidebar-building-name {
-    background-color: blue;
+    background-image: linear-gradient(to right, #FFCC00, #6D5203);
     color: white;
     text-align: center;
     padding: 18px;
+    font-weight: bold;
 }
 
 /* Tab Navigation (hover over other tabs) */
@@ -92,48 +94,50 @@ body {
     border: none;
     color: white;
     font-weight: bold;
+
     .tab-navigation {
-    display: flex;
-    background: #222;
-    margin-bottom: 0;
-}
+        display: flex;
+        background: #222;
+        margin-bottom: 0;
+    }
 
-.tab-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
+    .tab-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
 
-.tab-button {
-    flex: 1;
-    padding: 15px;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+    .tab-button {
+        flex: 1;
+        padding: 15px;
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
 
-.tab-button.active {
-    background: #585858;
-}
+    .tab-button.active {
+        background: #585858;
+    }
 
-.tab-button:hover {
-    background: #444;
-}
+    .tab-button:hover {
+        background: #444;
+    }
 
-.tab-indicator {
-    height: 3px;
-    width: 30px;
-    background-color: #000;
-    margin: 0 auto;
-    margin-bottom: 2px;
-}
+    .tab-indicator {
+        height: 3px;
+        width: 30px;
+        background-color: #000;
+        margin: 0 auto;
+        margin-bottom: 2px;
+    }
 
-.tab-indicator.active {
-    background-color: #eba91b;
-}
+    .tab-indicator.active {
+        background-color: #eba91b;
+    }
+
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -145,6 +149,7 @@ body {
 .tab-button:hover {
     background: #444;
 }
+
 
 /* Content Area */
 .content-area {
@@ -178,5 +183,65 @@ body {
 
     .logo img {
         height: 150px;
+    }
+
+    /* General Button Styling */
+    button {
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Close Button Style */
+    .close-button {
+        background-color: #f44336;
+        /* Red */
+        color: white;
+        border: none;
+    }
+
+    .close-button:hover {
+        background-color: #e53935;
+        /* Darker red */
+    }
+
+    /* Pagination Buttons Styling (Previous & Next) */
+    .pagination-button {
+        background-color: #4CAF50;
+        /* Green */
+        color: white;
+        border: none;
+    }
+
+    .pagination-button:hover {
+        background-color: #388e3c;
+        /* Darker green */
+        transform: scale(1.05);
+    }
+
+    /* Disabled State for Pagination Buttons */
+    .pagination-button:disabled {
+        background-color: #d3d3d3;
+        /* Light gray */
+        cursor: not-allowed;
+    }
+
+    /* Specific Styles for Previous and Next Buttons */
+    .prev-button {
+        margin-right: 10px;
+    }
+
+    .next-button {
+        margin-left: 10px;
+    }
+
+    /* Hover and Focus Effects */
+    button:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 0, 255, 0.3);
+        /* Optional focus outline */
     }
 }
