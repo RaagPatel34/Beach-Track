@@ -1,0 +1,183 @@
+/* Styling portion for the search results */
+.search-results {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    gap: 20px;
+}
+
+.search-item {
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: center; /* Center title horizontally */
+    color: black;
+    width: 100%;
+    height: 70px;
+    border-radius: 10px;
+    background: rgb(228, 227, 227);
+    margin-bottom: 10px;
+    padding: 10px;    
+}
+
+.search-item:hover{
+    background: rgb(193, 192, 192);
+}
+
+.pagination-buttons button {
+    background: #eba91b;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 15px;
+    margin-left: 70px;
+}
+
+.pagination-buttons button:hover {
+    background: #f5c24c;
+}
+
+.clear-search-button {
+    margin: 0 auto;
+    color: white;
+    background: red;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 15px;
+    width: 90%;
+}
+
+.clear-search-button:hover {
+    background: rgb(255, 77, 77);
+}
+
+.course-name {
+    font-weight: bold;
+    font-size: 16.5px;
+}
+
+.location-name {
+    font-size: 13.5px;
+}
+
+.time-day {
+    font-size: 13.5px;
+}
+
+/* Styling portion for when user clicks on one of the searched classrooms*/
+.onClickClassroomRectangle {
+    width: 100%; /* Adjust as needed */
+    height: 600px;
+    padding: 5px; /* Adds space inside the rectangle */
+    gap: 15px;
+    color: black;
+    background: rgb(228, 227, 227);
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: flex-start; /* Center title horizontally */
+    position: relative; /* Needed for absolute  positioning of child elements*/
+}
+
+.closeClassroomView {
+    position: relative;
+    right: -150px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 2px 6px; /* Sizing of the border around the "X"*/
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.onClickClassroomTitle {
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.onClickClassroomSectionNum {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.sectionText {
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomCourseID {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.idText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomProf {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.profText {
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomDate {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.dayText {
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomStartEnd {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.startText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.endText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomLocation {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.buildingText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.roomText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+/* Button styling*/
+.createReview {
+    color: white;
+    background: #eba91b;
+    font-weight: bold;
+    border-radius: 15px;
+    padding: 10px 20px; /* Adjust padding as needed */
+}
+
+.createReview:hover {
+    background: #f5c24c;
+}
