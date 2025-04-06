@@ -1,16 +1,27 @@
 "use client";
 import "../../styles/write-review.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react"; // Import useEffect
+import { useSearchParams } from 'next/navigation'; // Import useSearchParams
 import axios from 'axios';
 import { toast } from "react-toastify";
 
 export default function WriteReview() {
+  const searchParams = useSearchParams(); // Hook to get URL params
+  const initialClassroom = searchParams.get('classroom') || ""; // Get classroom from URL, default to ""
+
   // State variable "data" that will hold the forms metadata
   const [data, setData] = useState({
-    classroom: "",
+    classroom: initialClassroom, // Initialize with classroom from URL
     rating: 1,
     comment: "",
   });
+
+  useEffect(() => {
+    const classroomParam = searchParams.get('classroom') || "";
+    if (classroomParam !== data.classroom) {
+      setData(prevData => ({ ...prevData, classroom: classroomParam }));
+    }
+  }, [searchParams, data.classroom]); // Re-run if searchParams or data.classroom changes
   const [comment, setComment] = useState("");
   const maxLength = 300;
 
@@ -67,7 +78,7 @@ export default function WriteReview() {
 
               <div className="course-info">
                 <span className="status-dot"></span>
-                <span className="course-code">Room-Number</span>
+                <span className="course-code">{data.classroom || "Classroom"}</span> {/* Display classroom from state */}
               </div>
 
               <div className="timestamp">MM/DD/YYYY, Time</div>

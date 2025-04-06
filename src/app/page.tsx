@@ -40,7 +40,7 @@ export default function Home() {
     const [currentPage, setCurrentPage] = useState(1);  // Tracks pagination
     const [buildingClassrooms, setBuildingClassrooms] = useState<any[]>([]); // Store classrooms of selected building
     const [classroomPage, setClassroomPage] = useState(1);
-
+    const [reviews, setReviews] = useState<any[]>([]); // State for reviews
     // Ensure "Overview" is selected when a building is clicked
     useEffect(() => {
         if (selectedBuilding) {
@@ -60,6 +60,47 @@ export default function Home() {
             console.error("Error fetching classrooms:", error);
         }
     };
+
+    // Effect to fetch reviews when the reviews tab is active and a building is selected
+    useEffect(() => {
+        const fetchReviews = async () => {
+            console.log(`[Review Fetch Effect] Triggered: activeTab=${activeTab}, building=${selectedBuilding?.name}`); // Log effect trigger
+            if (activeTab === "reviews" && selectedBuilding) {
+                console.log(`[Review Fetch Effect] Condition met. Fetching for: ${selectedBuilding.name}`); // Log fetch start
+                // Find the abbreviation for the selected building
+                const buildingAbbreviation = buildingMap[selectedBuilding.name];
+
+                if (!buildingAbbreviation) {
+                    console.warn(`Abbreviation not found for building: ${selectedBuilding.name}`);
+                    setReviews([]); // Clear reviews if no abbreviation found
+                    return; // Stop fetching if no abbreviation
+                }
+
+                try {
+                    // Use the abbreviation in the API call
+                    const response = await fetch(`/api/review?building=${encodeURIComponent(buildingAbbreviation)}`);
+                    const data = await response.json();
+                    if (response.ok) {
+                        console.log('[Review Fetch Effect] API Response OK. Received data:', data); // Log successful data
+                        setReviews(data);
+                    } else {
+                        console.error("Failed to fetch reviews:", data.message);
+                        setReviews([]); // Clear reviews on error
+                    }
+                } catch (error) {
+                    console.error("Error fetching reviews:", error);
+                    setReviews([]); // Clear reviews on error
+                }
+            } else {
+                // Log why reviews are being cleared
+                if (activeTab !== "reviews") console.log('[Review Fetch Effect] Clearing reviews: Not on reviews tab.');
+                if (!selectedBuilding) console.log('[Review Fetch Effect] Clearing reviews: No building selected.');
+                setReviews([]); // Clear reviews if not on reviews tab or no building selected
+            }
+        };
+
+        fetchReviews();
+    }, [activeTab, selectedBuilding]); // Re-run effect when activeTab or selectedBuilding changes
 
     // Handle the search query submission
     const handleSearch = async (event: React.FormEvent) => {
@@ -145,6 +186,24 @@ export default function Home() {
                                         </>
                                     ) : (
                                         <p>No classrooms found for this building.</p>
+                                    )}
+                                </div>
+                            )}
+                            {/* Display Reviews when the reviews tab is active */}
+                            {activeTab === "reviews" && (
+                                <div className="reviews-list search-results"> {/* Reuse search-results styling */}
+                                    {reviews.length > 0 ? (
+                                        reviews.map((review, index) => (
+                                            <div key={index} className="review-item search-item"> {/* Reuse search-item styling */}
+                                                <h4>Rating: {review.rating}/5</h4>
+                                                <p>Classroom: {review.classroom}</p> {/* Show which classroom the review is for */}
+                                                <p>{review.comment}</p>
+                                                <small>By: {review.user || 'Anonymous'}</small>
+                                                {/* Add date if available */}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p>No reviews available for this building yet.</p>
                                     )}
                                 </div>
                             )}
@@ -284,10 +343,11 @@ export default function Home() {
                 </div>
 
                 <div className="right-content">
-                    <DynamicMap 
-                    selectedBuilding={selectedBuilding} 
-                    setSelectedBuilding={setSelectedBuilding} 
-                    setSearchResults={setSearchResults} 
+                    <DynamicMap
+                        selectedBuilding={selectedBuilding}
+                        setSelectedBuilding={setSelectedBuilding}
+                        setActiveTab={setActiveTab} // Ensure setActiveTab is passed
+                        setSearchResults={setSearchResults} // Pass setSearchResults
                     />
                 </div>
 

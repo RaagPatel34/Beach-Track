@@ -4,6 +4,7 @@ from time_converter import TimeParser
 from pymongo import MongoClient
 import json
 
+# parse fields thorugh index
 def fields(i):
     if i == 0:
         return "Section"
@@ -19,6 +20,7 @@ def fields(i):
         return "Location"
     elif i == 10:
         return "Instructor"
+
 
 def parse_courses(url, courses, building_codes):
     url = "http://web.csulb.edu/depts/enrollment/registration/class_schedule/Spring_2025/By_Subject/" + url
