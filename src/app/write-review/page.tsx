@@ -70,6 +70,8 @@ export default function WriteReview() {
           rating: 1,
           comment: ''
         });
+
+        window.location.href = "/";
       } else {
         toast.error('Error: could not submit');
       }
@@ -86,7 +88,9 @@ export default function WriteReview() {
           <div className="content-wrapper">
             <div className="review-card">
               <div className="card-header">
-                <button className="back-button">Back</button>
+                <a href="/">
+                  <button type= "button" className="back-button">Back</button>
+                </a>
                 <h1>Write Review</h1>
               </div>
 
@@ -136,7 +140,7 @@ export default function WriteReview() {
                   Inappropriate submissions will be removed.
                 </div>
               </div>
-
+              
               <button type= "submit" className="post-button">Post</button>
             </div>
           </div>
