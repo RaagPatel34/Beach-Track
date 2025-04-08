@@ -34,6 +34,26 @@
     margin-left: 70px;
 }
 
+.pagination-buttons2 {
+    display: flex;
+    justify-content: center;
+    gap: 50px; /* spacing between buttons */
+}
+
+.pagination-buttons2 button {
+    background: #eba91b;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+
+
+.pagination-buttons2 button:hover {
+    background: #f5c24c;
+}
+
 .pagination-buttons button:hover {
     background: #f5c24c;
 }
