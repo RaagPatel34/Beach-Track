@@ -16,6 +16,7 @@ interface Building {
 interface MapProps {
     selectedBuilding: Building | null;
     setSelectedBuilding: (building: Building | null) => void;
+    setActiveTab: (tab: string) => void; // Add setActiveTab prop
     // Added for pinpoint classroom results
     setSearchResults: (results: any[]) => void;  // Add this to update classrooms in sidebar
 }
@@ -34,7 +35,7 @@ const pinpointIcon = new Icon({
 });
 
 
-const Map: React.FC<MapProps> = ({ selectedBuilding, setSelectedBuilding, setSearchResults }) => {
+const Map: React.FC<MapProps> = ({ selectedBuilding, setSelectedBuilding, setActiveTab, setSearchResults }) => { // Destructure setActiveTab
     
     useEffect(() => {
         if (selectedBuilding) {
@@ -77,7 +78,10 @@ const Map: React.FC<MapProps> = ({ selectedBuilding, setSelectedBuilding, setSea
                         position={building.position}
                         icon={pinpointIcon}
                         eventHandlers={{
-                            click: () => setSelectedBuilding(building),
+                            click: () => {
+                                setSelectedBuilding(building);
+                                setActiveTab("reviews"); // Set active tab to 'reviews' on click
+                            },
                         }}
                     >
                         <Tooltip>{building.name}</Tooltip>
