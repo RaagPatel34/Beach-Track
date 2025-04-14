@@ -89,11 +89,26 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
         fetchReviews();
     }, [activeTab, selectedBuilding]);
 
+    // Helper function that converts military time to AM/PM
     const formatTime = (time: string) => {
-        if (!time) return "";
-        const [hours, minutes] = time.split(":").map(Number);
-        const period = hours >= 12 ? "PM" : "AM";
-        const formattedHours = hours % 12 || 12;
+        if (!time || typeof time !== "string") return "N/A";
+
+        const parts = time.split(":"); // Splits the time between hours and minutes
+        if (parts.length !== 2) return "N/A";
+
+        const [hours, minutes] = parts.map(Number); 
+
+        if (
+            isNaN(hours) || isNaN(minutes) || 
+            hours < 0 || hours > 23 ||
+            minutes < 0 || minutes > 59
+        ) {
+            return "N/A";
+        }
+
+        const period = hours >= 12 ? "PM" : "AM"; // Determine if it's AM or PM
+        const formattedHours = hours % 12 || 12; // Converts 0 (midnight) and 12 (afternoon) correctly
+
         return `${formattedHours}:${minutes.toString().padStart(2, "0")} ${period}`;
     };
 
@@ -161,7 +176,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                 )}
             </div>
         ) : (
-            <div className="onClickClassroomRectangle">
+            <div className="onClickClassroomRectangle2">
                 <button onClick={() => setSelectedClassroom(null)} className="closeClassroomView">✕</button>
                 <h1 className="onClickClassroomTitle">{selectedClassroom.courseName}</h1>
                 <p><span className="sectionText">Section:</span> <span className="onClickClassroomSectionNum">{selectedClassroom.sectionNumber}</span></p>
