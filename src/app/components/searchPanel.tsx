@@ -64,10 +64,24 @@ export default function SearchPanel({
 
     // Helper function that converts military time to AM/PM
     const formatTime = (time: string) => {
-        if (!time) return ""; // Handles empty cases
-        const [hours, minutes] = time.split(":").map(Number);  // Splits the time between hours and minutes
+        if (!time || typeof time !== "string") return "N/A";
+
+        const parts = time.split(":"); // Splits the time between hours and minutes
+        if (parts.length !== 2) return "N/A";
+
+        const [hours, minutes] = parts.map(Number); 
+
+        if (
+            isNaN(hours) || isNaN(minutes) || 
+            hours < 0 || hours > 23 ||
+            minutes < 0 || minutes > 59
+        ) {
+            return "N/A";
+        }
+
         const period = hours >= 12 ? "PM" : "AM"; // Determine if it's AM or PM
         const formattedHours = hours % 12 || 12; // Converts 0 (midnight) and 12 (afternoon) correctly
+
         return `${formattedHours}:${minutes.toString().padStart(2, "0")} ${period}`;
     };
 
@@ -91,9 +105,11 @@ export default function SearchPanel({
             {!selectedClassroom && (
                 <>
                     {isSearching && (
-                        <button className="clear-search-button" onClick={clearSearch}>
-                            Clear Search Bar
-                        </button>
+                        <div className="clear-button-wrapper">
+                            <button className="clear-search-button" onClick={clearSearch}>
+                                Clear Search Bar
+                            </button>
+                        </div>
                     )}
                     <div className="search-results">
                         <ul>
