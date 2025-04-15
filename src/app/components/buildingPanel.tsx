@@ -29,7 +29,7 @@ interface Review {
     rating: number;
     classroom: string;
     comment: string;
-    user?: string;
+    author?: string;
 }
 
 interface Props {
@@ -166,7 +166,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                                     <h4>Rating: {review.rating}/5</h4>
                                     <p>Classroom: {review.classroom}</p>
                                     <p>{review.comment}</p>
-                                    <small>By: {review.user || "Anonymous"}</small>
+                                    <small>By: {review.author || "Anonymous"}</small>
                                 </div>
                             ))
                         ) : (
