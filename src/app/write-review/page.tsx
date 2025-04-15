@@ -4,18 +4,30 @@ import React, { useState, useEffect } from "react"; // Import useEffect
 import { useSearchParams } from 'next/navigation'; // Import useSearchParams
 import axios from 'axios';
 import { toast } from "react-toastify";
+import { useUser } from '@clerk/nextjs';
 
 export default function WriteReview() {
   const searchParams = useSearchParams(); // Hook to get URL params
   const initialClassroom = searchParams.get('classroom') || ""; // Get classroom from URL, default to ""
   const [timeStamp, setTimeStamp] = useState("");
+  const { user } = useUser();
 
   // State variable "data" that will hold the forms metadata
   const [data, setData] = useState({
     classroom: initialClassroom, // Initialize with classroom from URL
+    author: '',
     rating: 1,
     comment: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      setData(prevData => ({
+        ...prevData,
+        author: user.username ?? 'Unknown', // fallback if username is null
+      }));
+    }
+  }, [user]);
 
   useEffect(() => {
     const classroomParam = searchParams.get('classroom') || "";
@@ -30,7 +42,7 @@ export default function WriteReview() {
     setComment(event.target.value.slice(0, maxLength)); // Enforces the limit
   };
 
-  useEffect (() => {
+  useEffect(() => {
     const currentDate = new Date();
     const formatted = currentDate.toLocaleString("en-US", {
       month: "2-digit",
@@ -45,7 +57,7 @@ export default function WriteReview() {
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
-    setData((prevData) => ({ ...prevData, [name]: name === "rating" ? Number(value):value, }));
+    setData((prevData) => ({ ...prevData, [name]: name === "rating" ? Number(value) : value, }));
   }
 
   const onSubmitHandler = async (e: React.FormEvent) => {
@@ -53,6 +65,7 @@ export default function WriteReview() {
 
     const formData = new FormData();
     formData.append('classroom', data.classroom);
+    formData.append('author', data.author);
     formData.append('rating', data.rating.toString());
     formData.append('comment', data.comment);
 
@@ -67,6 +80,7 @@ export default function WriteReview() {
         toast.success(response.data.msg);
         setData({
           classroom: '',
+          author: '',
           rating: 1,
           comment: ''
         });
@@ -89,7 +103,7 @@ export default function WriteReview() {
             <div className="review-card">
               <div className="card-header">
                 <a href="/">
-                  <button type= "button" className="back-button">Back</button>
+                  <button type="button" className="back-button">Back</button>
                 </a>
                 <h1>Write Review</h1>
               </div>
@@ -140,8 +154,8 @@ export default function WriteReview() {
                   Inappropriate submissions will be removed.
                 </div>
               </div>
-              
-              <button type= "submit" className="post-button">Post</button>
+
+              <button type="submit" className="post-button">Post</button>
             </div>
           </div>
         </div>
