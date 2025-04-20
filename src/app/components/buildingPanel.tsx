@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 import { buildingMap } from "../../../lib/data/buildingMap"; // Adjust path as needed
-import { Class, LatLngExpression } from "leaflet";
+import { LatLngExpression } from "leaflet";
 import "../../styles/search-results.css";
+import "../../styles/review-list.css";
 
 interface Building {
     name: string;
@@ -26,6 +27,7 @@ interface Classroom {
 }
 
 interface Review {
+    date: string | number | Date;
     rating: number;
     classroom: string;
     comment: string;
@@ -96,10 +98,10 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
         const parts = time.split(":"); // Splits the time between hours and minutes
         if (parts.length !== 2) return "N/A";
 
-        const [hours, minutes] = parts.map(Number); 
+        const [hours, minutes] = parts.map(Number);
 
         if (
-            isNaN(hours) || isNaN(minutes) || 
+            isNaN(hours) || isNaN(minutes) ||
             hours < 0 || hours > 23 ||
             minutes < 0 || minutes > 59
         ) {
@@ -111,6 +113,12 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
 
         return `${formattedHours}:${minutes.toString().padStart(2, "0")} ${period}`;
     };
+
+    const getColorClass = (rating: number) => {
+        if (rating >= 4) return 'bg-green';
+        if (rating >= 2) return 'bg-yellow';
+        return 'bg-red';
+    }
 
     return (
         !selectedClassroom ? (
@@ -159,20 +167,37 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                 )}
 
                 {activeTab === "reviews" && (
-                    <div className="reviews-list search-results">
-                        {reviews.length > 0 ? (
-                            reviews.map((review, index) => (
-                                <div key={index} className="review-item search-item">
-                                    <h4>Rating: {review.rating}/5</h4>
-                                    <p>Classroom: {review.classroom}</p>
-                                    <p>{review.comment}</p>
-                                    <small>By: {review.author || "Anonymous"}</small>
-                                </div>
-                            ))
-                        ) : (
-                            <p>No reviews available for this building yet.</p>
-                        )}
-                    </div>
+                    <>
+                        <div className="mainContainer1">
+                            {/* Title for the panel */}
+                            <div className="rectangleTitle1">
+                                Most Recent Classroom Ratings!
+                            </div>
+
+                            <div className="container">
+                                {reviews.length > 0 ? (
+                                    <>
+                                        {reviews
+                                            ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                                            .slice(0, 3)
+                                            .map((reviews) => (
+                                                <div key={`${reviews.date}-${reviews.classroom}`} className={`rectangle1 ${getColorClass(reviews.rating)}`}>
+                                                    <h2 className="reviewRating"> Rating: {reviews.rating} </h2>
+                                                    <h2 className="reviewClassroom"> Classroom: {reviews.classroom} </h2>
+                                                </div>
+                                            ))}
+                                        <a href="/post-review">
+                                            <button className="goToReviews">
+                                                View All Reviews!
+                                            </button>
+                                        </a>
+                                    </>
+                                ) : (
+                                    <p>No reviews available for this building yet.</p>
+                                )}
+                            </div>
+                        </div>
+                    </>
                 )}
             </div>
         ) : (
