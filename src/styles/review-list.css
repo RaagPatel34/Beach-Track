@@ -1,0 +1,79 @@
+.mainContainer1{
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center center horizontally */
+    gap: 10px;
+}
+
+/* Styling for the display title */
+.rectangleTitle1{
+    width: 95%; /* Adjust as needed */
+    height: 80px;
+    margin-top: 25px;
+    border-radius: 30px;
+    background: rgb(0, 0, 0);
+    color: white;
+    display: flex; /* Ensure content inside is properly displayed */
+    align-items: center; /* Align title vertically */
+    justify-content: center; /* Center title horizontally */
+    font-weight: bold;
+    font-size: 19px;
+}
+
+/* Styling for the display of all the events */
+.container{
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center center horizontally */
+    gap: 20px;
+    padding: 30px;
+}
+
+.rectangle1{
+
+    width: 100%; /* Adjust as needed */
+    height: 70px;
+    border-radius: 10px;
+    color: white;
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: center; /* Center title horizontally */
+}
+
+.bg-green {
+    background-color: #4CAF50; /* green */
+}
+
+.bg-yellow {
+    background-color: #FFC107; /* yellow */
+}
+
+.bg-red {
+    background-color: #F44336; /* red */
+}
+
+.reviewRating{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.reviewClassroom{
+    font-weight: bold;
+    font-size: 15px
+}
+
+/* Modifies the view all reviews button*/
+.goToReviews{
+    color: white;
+    background: #eba91b;
+    display: block;  /* Centering*/
+    margin: 0 auto;  /* Centering*/
+    padding: 10px 20px; /* Adjust padding as needed */
+    border-radius: 15px; /* Higher value = more rounded corners */
+    font-weight: bold;
+}
+
+.goToReviews:hover{
+    background: #f5c24c;
+}

@@ -1,16 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const ShowClassrooms = () => {
     const [groupedReviews, setGroupedReviews] = useState<{ [key: string]: any[] }>({});
+    const searchParams = useSearchParams();
     const router = useRouter();
+
+    const building = searchParams.get("building");
 
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const res = await fetch("/api/review");
+                let url = "/api/review";
+                if (building) {
+                    url += `?building=${encodeURIComponent(building)}`;
+                }
+
+                const res = await fetch(url);
                 const data = await res.json();
 
                 const grouped = data.reduce((acc: any, review: any) => {
@@ -28,7 +36,7 @@ const ShowClassrooms = () => {
         };
 
         fetchReviews();
-    }, []);
+    }, [building]);
 
     const calculateAverageRating = (reviews: any[]) => {
         if (!reviews || reviews.length === 0) return "No ratings";
