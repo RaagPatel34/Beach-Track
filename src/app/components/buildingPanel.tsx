@@ -186,7 +186,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                                                     <h2 className="reviewClassroom"> Classroom: {reviews.classroom} </h2>
                                                 </div>
                                             ))}
-                                        <a href="/post-review">
+                                        <a href={`/post-review?building=${encodeURIComponent(buildingMap[selectedBuilding.name])}`}>
                                             <button className="goToReviews">
                                                 View All Reviews!
                                             </button>
