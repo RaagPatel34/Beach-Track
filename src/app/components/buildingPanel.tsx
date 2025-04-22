@@ -4,6 +4,7 @@ import { buildingMap } from "../../../lib/data/buildingMap"; // Adjust path as n
 import { LatLngExpression } from "leaflet";
 import "../../styles/search-results.css";
 import "../../styles/review-list.css";
+import "../../styles/favorite.css";
 
 interface Building {
     name: string;
@@ -45,6 +46,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
     const [classroomPage, setClassroomPage] = useState(1);
     const [reviews, setReviews] = useState<Review[]>([]);
     const [selectedClassroom, setSelectedClassroom] = useState<Classroom | null>(null);
+    const [isFavorited, setIsFavorited] = useState(false);  // Used to determine if classroom is favorited or not.
 
     // Ensure "Overview" is selected when a building is clicked
     useEffect(() => {
@@ -63,6 +65,45 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
             console.error("Error fetching classrooms:", error);
         }
     };
+
+    // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever 
+    // selectedClassroom changes. Updates the isFavorited state accorrdingly
+    useEffect(() => {
+        const checkIfFavorited = async () => {
+            if (!selectedClassroom) return;
+
+            try {
+                // Sends a GET request to retrieve the list of favorited classrooms
+                const res = await fetch(`/api/favorite`, {
+                    method: "GET",
+                    credentials: "include",
+                });
+
+                // Error handling
+                if (!res.ok) {
+                    console.error("Failed to fetch favorites:", await res.text());
+                    return;
+                }
+
+                const favorites = await res.json();  // Parse response as a JSON
+
+                if (!Array.isArray(favorites)) {
+                    console.error("Favorites is not an array:", favorites);
+                    return;
+                }  // Ensures results are an array
+
+                const match = favorites.find(
+                    (fav: any) => fav.classroomLocation === selectedClassroom.location
+                );  // Checks if the favorited classrooms match the currently selected one
+
+                setIsFavorited(!!match);
+            } catch (err) {
+                console.error("Error checking favorite status:", err);
+            }
+        };
+
+        checkIfFavorited();
+    }, [selectedClassroom]);
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -202,7 +243,36 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
             </div>
         ) : (
             <div className="onClickClassroomRectangle2">
-                <button onClick={() => setSelectedClassroom(null)} className="closeClassroomView">✕</button>
+                <button>
+                    <span
+                        className="favorite-button"
+                        onClick={async () => {
+                            if (!selectedClassroom) return;
+
+                            try {
+                                // Sends a request to /api/favorite. If favorite is truem uses DELETE, else uses POST
+                                const res = await fetch(`/api/favorite`, {
+                                    method: isFavorited ? "DELETE" : "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    credentials: "include",
+                                    body: JSON.stringify({ classroomLocation: selectedClassroom.location }),
+                                });
+
+                                // Error handling and checking if success!
+                                if (res.ok) {
+                                    setIsFavorited(!isFavorited);
+                                } else {
+                                    console.error("Failed to toggle favorite");
+                                }
+                            } catch (err) {
+                                console.error("Error favoriting:", err);
+                            }
+                        }}
+                    >
+                        {isFavorited ? "★" : "☆"}
+                    </span>
+                    <span onClick={() => setSelectedClassroom(null)} className="closeClassroomView">✕</span>
+                </button>
                 <h1 className="onClickClassroomTitle">{selectedClassroom.courseName}</h1>
                 <p><span className="sectionText">Section:</span> <span className="onClickClassroomSectionNum">{selectedClassroom.sectionNumber}</span></p>
                 <p><span className="profText">Professor:</span> <span className="onClickClassroomProf">{selectedClassroom.instructor}</span></p>

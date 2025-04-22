@@ -129,9 +129,13 @@
     background: red;
     color: white;
     border: none;
-    padding: 2px 6px; /* Sizing of the border around the "X"*/
+    padding: 3px 7px; /* Sizing of the border around the "X"*/
     cursor: pointer;
     border-radius: 3px;
+}
+
+.closeClassroomView:hover{
+    background: rgb(255, 77, 77);
 }
 
 .onClickClassroomTitle {
