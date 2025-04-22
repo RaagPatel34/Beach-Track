@@ -243,7 +243,36 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
             </div>
         ) : (
             <div className="onClickClassroomRectangle2">
-                <button onClick={() => setSelectedClassroom(null)} className="closeClassroomView">✕</button>
+                <button>
+                    <span
+                        className="favorite-button"
+                        onClick={async () => {
+                            if (!selectedClassroom) return;
+
+                            try {
+                                // Sends a request to /api/favorite. If favorite is truem uses DELETE, else uses POST
+                                const res = await fetch(`/api/favorite`, {
+                                    method: isFavorited ? "DELETE" : "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    credentials: "include",
+                                    body: JSON.stringify({ classroomLocation: selectedClassroom.location }),
+                                });
+
+                                // Error handling and checking if success!
+                                if (res.ok) {
+                                    setIsFavorited(!isFavorited);
+                                } else {
+                                    console.error("Failed to toggle favorite");
+                                }
+                            } catch (err) {
+                                console.error("Error favoriting:", err);
+                            }
+                        }}
+                    >
+                        {isFavorited ? "★" : "☆"}
+                    </span>
+                    <span onClick={() => setSelectedClassroom(null)} className="closeClassroomView">✕</span>
+                </button>
                 <h1 className="onClickClassroomTitle">{selectedClassroom.courseName}</h1>
                 <p><span className="sectionText">Section:</span> <span className="onClickClassroomSectionNum">{selectedClassroom.sectionNumber}</span></p>
                 <p><span className="profText">Professor:</span> <span className="onClickClassroomProf">{selectedClassroom.instructor}</span></p>
@@ -264,34 +293,6 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                 <a href={`/write-review?classroom=${encodeURIComponent(selectedClassroom.location)}`}>
                     <button className="createReview">Click to Review Classroom!</button>
                 </a>
-
-                <button
-                    className="favorite-button"
-                    onClick={async () => {
-                        if (!selectedClassroom) return;
-
-                        try {
-                            // Sends a request to /api/favorite. If favorite is truem uses DELETE, else uses POST
-                            const res = await fetch(`/api/favorite`, {
-                                method: isFavorited ? "DELETE" : "POST",
-                                headers: { "Content-Type": "application/json" },
-                                credentials: "include",
-                                body: JSON.stringify({ classroomLocation: selectedClassroom.location }),
-                            });
-
-                            // Error handling and checking if success!
-                            if (res.ok) {
-                                setIsFavorited(!isFavorited);
-                            } else {
-                                console.error("Failed to toggle favorite");
-                            }
-                        } catch (err) {
-                            console.error("Error favoriting:", err);
-                        }
-                    }}
-                >
-                    {isFavorited ? "★ Unfavorite" : "☆ Favorite"}
-                </button>
             </div>
         )
     );
