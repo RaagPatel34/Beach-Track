@@ -1,3 +1,11 @@
-.favorite-button{
-    
+.favorite-button {
+    position: relative;
+    color: rgb(221, 221, 24);
+    font-weight: bolder;
+    right: 140px;
+    font-size: 36px;
+}
+
+.favorite-button:hover {
+    color: rgb(221, 221, 124);
 }
