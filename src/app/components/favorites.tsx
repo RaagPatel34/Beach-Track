@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import "../../styles/search-results.css";
+import "../../styles/spinner.css";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -17,11 +19,23 @@ const Favorites = () => {
         }
       } catch (error) {
         console.error("Error fetching favorites:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchFavorites();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div> 
+        <p className="loading-text">Loading Favorites...</p> 
+      </div>
+    );
+  }
+  
 
   if (favorites.length === 0) {
     return (
