@@ -47,6 +47,9 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [selectedClassroom, setSelectedClassroom] = useState<Classroom | null>(null);
     const [isFavorited, setIsFavorited] = useState(false);  // Used to determine if classroom is favorited or not.
+    const [isLoading, setIsLoading] = useState(false);
+    const [isReviewsLoading, setIsReviewsLoading] = useState(false);
+
 
     // Ensure "Overview" is selected when a building is clicked
     useEffect(() => {
@@ -55,6 +58,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
     }, [selectedBuilding]);
 
     const fetchBuildingClassrooms = async (buildingName: string) => {
+        setIsLoading(true); 
         try {
             const buildingAbbrev = buildingMap[buildingName] || buildingName;
             const response = await fetch(`/api/search?search=${buildingAbbrev}`);
@@ -63,8 +67,11 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
             setClassroomPage(1);
         } catch (error) {
             console.error("Error fetching classrooms:", error);
+        } finally {
+            setIsLoading(false); 
         }
     };
+    
 
     // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever 
     // selectedClassroom changes. Updates the isFavorited state accorrdingly
@@ -108,13 +115,16 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
     useEffect(() => {
         const fetchReviews = async () => {
             if (activeTab === "reviews" && selectedBuilding) {
+                setIsReviewsLoading(true); // Set loading state to true when fetching reviews
+    
                 const abbreviation = buildingMap[selectedBuilding.name];
                 if (!abbreviation) {
                     console.warn(`Abbreviation not found for: ${selectedBuilding.name}`);
                     setReviews([]);
+                    setIsReviewsLoading(false); // Set loading state to false
                     return;
                 }
-
+    
                 try {
                     const res = await fetch(`/api/review?building=${encodeURIComponent(abbreviation)}`);
                     const data = await res.json();
@@ -123,14 +133,17 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                 } catch (error) {
                     console.error("Error fetching reviews:", error);
                     setReviews([]);
+                } finally {
+                    setIsReviewsLoading(false); // Set loading state to false
                 }
             } else {
                 setReviews([]);
             }
         };
-
+    
         fetchReviews();
     }, [activeTab, selectedBuilding]);
+    
 
     // Helper function that converts military time to AM/PM
     const formatTime = (time: string) => {
@@ -177,8 +190,13 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                         <button className="clear-search-button" onClick={() => setSelectedBuilding(null)}>
                             Close
                         </button>
-                        {buildingClassrooms.length > 0 ? (
-                            <>
+                        {isLoading ? (
+                                <div className="loading-container">
+                                    <div className="spinner"></div>
+                                    <p className="loading-text">Loading results...</p>
+                                </div>
+                                ) : buildingClassrooms.length > 0 ? (
+                                 <>
                                 <ul>
                                     {buildingClassrooms.slice((classroomPage - 1) * 5, classroomPage * 5).map((classroom, index) => (
                                         <button key={index} onClick={() => setSelectedClassroom(classroom)} className="search-item">
@@ -216,7 +234,12 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                             </div>
 
                             <div className="container">
-                                {reviews.length > 0 ? (
+                                {isReviewsLoading ? (
+                                     <div className="loading-container">
+                                     <div className="spinner"></div>
+                                     <p className="loading-text">Loading reviews...</p>
+                                 </div>
+                                ): reviews.length > 0 ? (
                                     <>
                                         {reviews
                                             ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
