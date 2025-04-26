@@ -1,7 +1,8 @@
 "use client";
-import EventList from "./components/eventList";
+import EventList from "./components/EventList";
 import SearchPanel from "./components/searchPanel";
 import BuildingPanel from "./components/buildingPanel";
+import Favorites from "./components/favorites";
 import { useState } from "react";
 import "../styles/homepage.css";
 import dynamic from "next/dynamic";
@@ -84,7 +85,7 @@ export default function Home() {
                                 </div>
 
                                 <div className="content-area">
-                                    {activeTab === "favorite" && <div className="no-content-message">No favorite classrooms</div>}
+                                    {activeTab === "favorite" && <div className="no-content-message"><Favorites /></div>}
                                     {activeTab === "openRooms" && <div className="no-content-message"></div>}
                                     {activeTab === "events" && <div className="no-content-message"><EventList /></div>}
                                 </div>
