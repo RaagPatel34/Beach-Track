@@ -36,10 +36,13 @@ export default function SearchPanel({
     setIsSearching,
 }: Props) {
     const [searchTerm, setSearchTerm] = useState("");
+    const [timeFilter, setTimeFilter] = useState(""); // State for the time filter input
+    const [dateFilter, setDateFilter] = useState(""); // State for the date filter input
+    const [showFilters, setShowFilters] = useState(false); // State to control filter visibility
     const [currentPage, setCurrentPage] = useState(1);
     const [isFavorited, setIsFavorited] = useState(false);  // Used to determine if classroom is favorited or not.
 
-    // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever 
+    // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever
     // selectedClassroom changes. Updates the isFavorited state accorrdingly
     useEffect(() => {
         const checkIfFavorited = async () => {
@@ -83,9 +86,26 @@ export default function SearchPanel({
         if (!searchTerm) return;
 
         try {
-            const response = await fetch(`/api/search?search=${searchTerm}`);
+            // Construct the API URL
+            let apiUrl = `/api/search?search=${encodeURIComponent(searchTerm)}`;
+            if (timeFilter) {
+                apiUrl += `&time=${encodeURIComponent(timeFilter)}`; // Add time filter if set
+            }
+            if (dateFilter) {
+                apiUrl += `&date=${encodeURIComponent(dateFilter)}`; // Add date filter if set
+            }
+
+            const response = await fetch(apiUrl);
             const data = await response.json();
-            setSearchResults(data);
+
+            // Handle potential errors from the API (like invalid time format)
+            if (!response.ok) {
+                console.error("Search API Error:", data.error || response.statusText);
+                // Optionally, display an error message to the user
+                setSearchResults([]); // Clear results on error
+            } else {
+                setSearchResults(data);
+            }
             setCurrentPage(1);
             setIsSearching(true);
         } catch (error) {
@@ -96,6 +116,9 @@ export default function SearchPanel({
     const clearSearch = () => {
         setSearchResults([]);
         setSearchTerm("");
+        setTimeFilter(""); // Clear the time filter
+        setDateFilter(""); // Clear the date filter
+        setShowFilters(false); // Hide the filters
         setIsSearching(false);
     };
 
@@ -131,15 +154,47 @@ export default function SearchPanel({
             <div className="search-wrapper">
                 <form onSubmit={handleSearch}>
                     <div className="search-bar">
-                        <button className="menu-button">☰</button>
+                        {/* Use menu button to toggle time filter */}
+                        <button
+                            type="button"
+                            className="menu-button"
+                            onClick={() => setShowFilters(!showFilters)} // Toggle visibility
+                            title="Toggle filters"
+                        >
+                            ☰ {/* Or use a filter icon */}
+                        </button>
                         <input
                             type="text"
                             placeholder="Search by building or classroom"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
+                        {/* Removed the separate filter button */}
                         <button type="submit" className="search-button">🔍</button>
                     </div>
+                    {/* Conditionally render Filters BELOW the search bar */}
+                    {showFilters && (
+                        <div className="filters-wrapper"> {/* Wrapper for all filters */}
+                            <div className="filter-item">
+                                <span className="filter-label">Filter by Time: </span>
+                                <input
+                                    type="time"
+                                    className="filter-input time-filter-input"
+                                    value={timeFilter}
+                                    onChange={(e) => setTimeFilter(e.target.value)}
+                                />
+                            </div>
+                            <div className="filter-item">
+                                <span className="filter-label">Filter by Date: </span>
+                                <input
+                                    type="date"
+                                    className="filter-input date-filter-input"
+                                    value={dateFilter}
+                                    onChange={(e) => setDateFilter(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </form>
             </div>
 
