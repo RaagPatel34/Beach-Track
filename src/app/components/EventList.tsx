@@ -16,15 +16,20 @@ interface Event {
 }
 
 const EventList = () => {
-
-    // Starts as an empty array, but is always expected to hold 'Event' objects
-    const [ events, setEvents ] = useState<Event[]>([]);
-    const [ selectedEvent, setSelectedEvent ] = useState<Event | null>(null);  // Will be used to track the selected event
+    const [events, setEvents] = useState<Event[]>([]);
+    const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+    const [loading, setLoading] = useState(true);
 
     const fetchEvents = async () => {
-        // Ensures 'response.data' contains an object with a bulletin array, which holds Event objects
-        const response = await axios.get<{ bulletins: Event[] }>('/api/bulletin');
-        setEvents(response.data.bulletins);
+        try {
+            setLoading(true);
+            const response = await axios.get<{ bulletins: Event[] }>('/api/bulletin');
+            setEvents(response.data.bulletins);
+        } catch (error) {
+            console.error("Error fetching events:", error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -36,7 +41,7 @@ const EventList = () => {
     }
 
     if (selectedEvent) {
-        return(
+        return (
             <div className="onClickRectangle">
                 <button onClick={closeEventView} className="closeView">
                     ✕
@@ -46,7 +51,7 @@ const EventList = () => {
                     By: {selectedEvent.author}
                 </p>
                 <p className="onClickDate">
-                    When:{' '} {new Date(selectedEvent.date).toLocaleDateString()}
+                    When: {new Date(selectedEvent.date).toLocaleDateString()}
                 </p>
                 <p className="onClickStartEnd"> 
                     Start Time: {selectedEvent.startTime} | End Time: {selectedEvent.endTime} 
@@ -58,7 +63,21 @@ const EventList = () => {
         );
     }
 
-return (
+    if (loading) {
+        return (
+            <div className="mainContainer">
+                <div className="rectangleTitle">
+                    Upcoming Events Around CSULB!
+                </div>
+                <div className="loading-container">
+                    <div className="spinner"></div>
+                    <p className="loading-text">Loading Events...</p>
+                </div>
+            </div>
+        );
+    }
+
+    return (
         <>
             <div className="mainContainer">
                 <div className="rectangleTitle">
@@ -67,21 +86,21 @@ return (
 
                 <div className="container">
                     {events
-                    ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) // Sort by newest first
-                    .slice(0, 3) // Take only the first 3
-                    .map((event) => (
-                        <button key={event._id} onClick={() => setSelectedEvent(event)} className="rectangle">
-                            <h2 className="eventTitle"> {event.title} </h2>
-                            <p className="eventAuthor"> By: {event.author} </p>
-                        </button>
-                    ))}
-
+                        ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                        .slice(0, 3)
+                        .map((event) => (
+                            <button key={event._id} onClick={() => setSelectedEvent(event)} className="rectangle">
+                                <h2 className="eventTitle">{event.title}</h2>
+                                <p className="eventAuthor">By: {event.author}</p>
+                            </button>
+                        ))}
                 </div>
-  
-                <button className='goToBulletin'> 
-                    Click to View Bulletin! 
-                </button>
-                
+
+                <a href = {'/post-event'}>
+                    <button className='goToBulletin'>
+                        Click to View Bulletin!
+                    </button>
+                </a>
             </div>
         </>
     );
