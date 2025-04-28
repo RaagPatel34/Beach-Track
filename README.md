@@ -2,11 +2,11 @@
 ## Update 3 (4/28/2025)
 More bug fixes, UI/UX changes/improvements
 Summary:
-    - [CHANGE] Changed the search icon from the emoji to a basic black svg image
-    - [FEATURE] Implemented search bar autofill suggestions (we can now search by full building name as well)
-    - [CHANGE] Totally restyled/redesigned the search bar and main tab navigation to make it look more modern and Google Maps-like
-    - [BUG FIX] After searching via search bar and clicking "Clear Search Bar", the Favorites tab is now selected by default
-    - [BUG FIX] Similarly, after searching via map pinpoints and clicking "Close", the Favorites tab is now selected by default
+- [CHANGE] Changed the search icon from the emoji to a basic black svg image
+- [FEATURE] Implemented search bar autofill suggestions (we can now search by full building name as well)
+- [CHANGE] Totally restyled/redesigned the search bar and main tab navigation to make it look more modern and Google Maps-like
+- [BUG FIX] After searching via search bar and clicking "Clear Search Bar", the Favorites tab is now selected by default
+- [BUG FIX] Similarly, after searching via map pinpoints and clicking "Close", the Favorites tab is now selected by default
 Files:
 - "src/app/page.tsx" (Modified)
 - "src/app/components/searchPanel.tsx" (Modified)
