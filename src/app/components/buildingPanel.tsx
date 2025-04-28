@@ -182,8 +182,8 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
                 <p>{selectedBuilding.description}</p>
 
                 <div className="tab-navigation">
-                    <button className={`tab-button ${activeTab === "overview" ? "selected" : ""}`} onClick={() => setActiveTab("overview")}>Overview</button>
-                    <button className={`tab-button ${activeTab === "reviews" ? "selected" : ""}`} onClick={() => setActiveTab("reviews")}>Reviews</button>
+                    <button className={`tab-button ${activeTab === "overview" ? "selected" : ""}`} onClick={() => setLocalActiveTab("overview")}>Overview</button>
+                    <button className={`tab-button ${activeTab === "reviews" ? "selected" : ""}`} onClick={() => setLocalActiveTab("reviews")}>Reviews</button>
                 </div>
 
                 {activeTab === "overview" && (
