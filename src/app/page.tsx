@@ -44,12 +44,11 @@ export default function Home() {
                 {/* Sidebar that gets fully replaced when a building is selected */}
                 <div className={`left-content ${selectedBuilding ? "expanded" : ""}`}>
                     {selectedBuilding ? (
-
                         <BuildingPanel
                             selectedBuilding={selectedBuilding}
                             setSelectedBuilding={setSelectedBuilding}
+                            setActiveTab={setActiveTab}
                         />
-
                     ) : (
                     <>
                         <SearchPanel
@@ -59,25 +58,26 @@ export default function Home() {
                             setSelectedClassroom={setSelectedClassroom}
                             isSearching={isSearching}
                             setIsSearching={setIsSearching}
+                            setActiveTab={setActiveTab}
                         />
 
                         {!isSearching && (
                             <>
                                 <div className="tab-navigation">
                                     <button
-                                        className={`tab-button ${activeTab === "favorite" ? "active" : ""}`}
+                                        className={`tab-button ${activeTab === "favorite" ? "selected" : ""}`}
                                         onClick={() => setActiveTab("favorite")}
                                     >
                                         Favorites
                                     </button>
                                     <button
-                                        className={`tab-button ${activeTab === "openRooms" ? "active" : ""}`}
+                                        className={`tab-button ${activeTab === "openRooms" ? "selected" : ""}`}
                                         onClick={() => setActiveTab("openRooms")}
                                     >
                                         Open Rooms
                                     </button>
                                     <button
-                                        className={`tab-button ${activeTab === "events" ? "active" : ""}`}
+                                        className={`tab-button ${activeTab === "events" ? "selected" : ""}`}
                                         onClick={() => setActiveTab("events")}
                                     >
                                         Events
