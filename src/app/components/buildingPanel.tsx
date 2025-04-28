@@ -38,10 +38,11 @@ interface Review {
 interface Props {
     selectedBuilding: Building;
     setSelectedBuilding: (building: Building | null) => void;
+    setActiveTab: (tabName: string) => void;
 }
 
-const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
-    const [activeTab, setActiveTab] = useState("overview");
+const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: Props) => {
+    const [activeTab, setLocalActiveTab] = useState("overview");
     const [buildingClassrooms, setBuildingClassrooms] = useState<Classroom[]>([]);
     const [classroomPage, setClassroomPage] = useState(1);
     const [reviews, setReviews] = useState<Review[]>([]);
@@ -53,7 +54,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
 
     // Ensure "Overview" is selected when a building is clicked
     useEffect(() => {
-        setActiveTab("overview");
+        setLocalActiveTab("overview");
         fetchBuildingClassrooms(selectedBuilding.name);
     }, [selectedBuilding]);
 
@@ -181,13 +182,16 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                 <p>{selectedBuilding.description}</p>
 
                 <div className="tab-navigation">
-                    <button className={`tab-button ${activeTab === "overview" ? "active" : ""}`} onClick={() => setActiveTab("overview")}>Overview</button>
-                    <button className={`tab-button ${activeTab === "reviews" ? "active" : ""}`} onClick={() => setActiveTab("reviews")}>Reviews</button>
+                    <button className={`tab-button ${activeTab === "overview" ? "selected" : ""}`} onClick={() => setActiveTab("overview")}>Overview</button>
+                    <button className={`tab-button ${activeTab === "reviews" ? "selected" : ""}`} onClick={() => setActiveTab("reviews")}>Reviews</button>
                 </div>
 
                 {activeTab === "overview" && (
                     <div className="search-results">
-                        <button className="clear-search-button" onClick={() => setSelectedBuilding(null)}>
+                        <button className="clear-search-button" onClick={() => {
+                            setSelectedBuilding(null);
+                            setActiveTab("favorite"); 
+                        }}>
                             Close
                         </button>
                         {isLoading ? (
