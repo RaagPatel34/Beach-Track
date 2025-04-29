@@ -300,3 +300,7 @@
 .suggestions-list li:hover {
     background-color: #f0f0f0;
 }
+
+.no-classroom-found-search {
+    padding: 20px;
+}
