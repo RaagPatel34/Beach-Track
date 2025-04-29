@@ -2,9 +2,12 @@
 
 import { MapContainer, TileLayer, Marker, useMap, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { LatLngExpression, LatLngBoundsExpression, Icon } from "leaflet";
+import { LatLngExpression, LatLngBoundsExpression, Icon, DivIcon } from "leaflet";
 import { useEffect } from "react"; // Added for pinpoint classroom results
 import { buildings } from "../../../lib/data/buildingsData"; // Import buildings array
+import { buildingMap } from "../../../lib/data/buildingMap";
+import { buildingColorMap } from "../../../lib/data/buildingColorMap";
+import "../../styles/map-pinpoint.css";
 
 
 interface Building {
@@ -72,21 +75,37 @@ const Map: React.FC<MapProps> = ({ selectedBuilding, setSelectedBuilding, setAct
                 />
 
                 {/* Add markers for buildings */}
-                {buildings.map((building, index) => (
+                {buildings.map((building, index) => {
+                const abbreviation = buildingMap[building.name] || "";
+
+                // Get the color group based on building abbreviation
+                const colorGroup = buildingColorMap[abbreviation] || "fallback"; // default fallback
+
+                const buildingIcon = new DivIcon({
+                    html: `<div class="building-pin building-pin-${colorGroup}">${abbreviation}</div>`,
+                    className: "",
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 15],
+                });
+
+                return (
                     <Marker
                         key={index}
                         position={building.position}
-                        icon={pinpointIcon}
+                        icon={buildingIcon}
                         eventHandlers={{
                             click: () => {
                                 setSelectedBuilding(building);
-                                setActiveTab("reviews"); // Set active tab to 'reviews' on click
+                                setActiveTab("reviews");
                             },
                         }}
                     >
                         <Tooltip>{building.name}</Tooltip>
                     </Marker>
-                ))}
+                );
+            })}
+
+
 
                 {selectedBuilding && <ZoomToBuilding position={selectedBuilding.position} />}
             </MapContainer>
