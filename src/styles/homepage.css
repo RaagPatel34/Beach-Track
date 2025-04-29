@@ -77,13 +77,67 @@ body {
 }
 
 .sidebar-building-name {
-    background-image: linear-gradient(to right, #FFCC00, #6D5203);
+    /*background-image: linear-gradient(to right, #FFCC00, #6D5203);*/
     color: white;
     text-align: center;
     padding: 18px;
     font-weight: bold;
     font-size: 1.25rem;
 }
+
+/* Specific colors */
+.sidebar-building-name-purple {
+    background-image: linear-gradient(to right, #af67df, #670ba4);
+}
+
+.sidebar-building-name-darkblue {
+    background-image: linear-gradient(to right, #0069e0, #00499c);
+}
+
+.sidebar-building-name-green {
+    background-image: linear-gradient(to right, #2f9c08, #1d6702);
+}
+
+.sidebar-building-name-orange {
+    background-image: linear-gradient(to right, #eb840e, #bc6400);
+}
+
+.sidebar-building-name-teal {
+    background-image: linear-gradient(to right, #0cd09c, #057c5c);
+}
+
+.sidebar-building-name-pink {
+    background-image: linear-gradient(to right, #d876c0, #a85994);
+}
+
+.sidebar-building-name-lightgreen {
+    background-image: linear-gradient(to right, #96d060, #48771c);
+}
+
+.sidebar-building-name-lightblue {
+    background-image: linear-gradient(to right, #64b7ff, #4986ba);
+}
+
+.sidebar-building-name-yellow {
+    background-image: linear-gradient(to right, #FFCC00, #8d6d0d);
+}
+
+.sidebar-building-name-magenta {
+    background-image: linear-gradient(to right, #bc1278, #95075c);
+}
+
+.sidebar-building-name-red {
+    background-image: linear-gradient(to right, #d42121, #941616);
+}
+
+.sidebar-building-name-lavender {
+    background-image: linear-gradient(to right, #d3a5e4, #7c5789);
+}
+
+.sidebar-building-name-fallback {
+    background-image: linear-gradient(to right, #FFCC00, #8d6d0d);
+}
+
 
 /* Tab Navigation */
 .tab-navigation {
