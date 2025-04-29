@@ -1,4 +1,26 @@
 # BeachTrack
+## Update 4 (4/28/2025)
+More bug fixes, UI/UX changes/improvements
+
+Summary:
+- Fixed bug for search panel “no classrooms found” for map pinpoints
+- Added “Loading map…”
+- Replaced pinpoints with building abbreviation markers and colored by group
+- Sidebar building name is color coordinated to match map markers
+
+Files
+- src/app/components/searchPanel.tsx (Modified)
+- src/styles/search-results.css (Modified)
+- src/app/page.tsx (Modified)
+- src/styles/spinner.css (Modified)
+- src/app/components/Map.tsx (Modified)
+- src/styles/map-pinpoint.css (Added)
+- lib/data/buildingsData.ts (Modified)
+- src/app/components/buildingColorMap.tsx (Added)
+- src/app/components/buildingPanel.tsx (Modified)
+- src/styles/homepage.css (Modified)
+
+
 ## Update 3 (4/28/2025)
 More bug fixes, UI/UX changes/improvements
 
