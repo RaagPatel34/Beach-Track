@@ -164,7 +164,7 @@ export default function SearchPanel({
                                     const matchedSuggestions = Object.entries(buildingMap as Record<string, string>)
                                     .flatMap(([fullName, abbreviation]) => [fullName, abbreviation])
                                     .filter((name) => name.toLowerCase().includes(searchValue))
-                                    .slice(0, 5);
+                                    .slice(0, 10);
 
                                     setSuggestions(matchedSuggestions);
 
@@ -222,6 +222,10 @@ export default function SearchPanel({
                                     <p className="time-day">Time: {formatTime(result.startTime)} - {formatTime(result.endTime)}, Days: {result.days}</p>
                                 </button>
                             ))}
+
+                            {isSearching && searchResults.length === 0 && (
+                                        <p className="no-classroom-found-search"> No classrooms found for this building. </p>
+                            )}
                         </ul>
                     </div>
 
