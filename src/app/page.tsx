@@ -5,10 +5,21 @@ import BuildingPanel from "./components/buildingPanel";
 import Favorites from "./components/favorites";
 import { useState } from "react";
 import "../styles/homepage.css";
+import "../styles/spinner.css";
 import dynamic from "next/dynamic";
 import { LatLngExpression } from "leaflet";
 
-const DynamicMap = dynamic(() => import("./components/Map"), { ssr: false });
+const DynamicMap = dynamic(() => import("./components/Map"), {
+    ssr: false,
+    loading: () => (
+        <div className="map-loading-wrapper">
+            <div className="map-loading-container">
+                <div className="spinner"></div>
+                <div className="loading-text">Loading map...</div>
+            </div>
+        </div>
+    ),
+});
 
 interface Building {
     name: string;
@@ -32,6 +43,7 @@ interface Classroom {
 }
 
 export default function Home() {
+    
     const [activeTab, setActiveTab] = useState("favorite");
     const [isSearching, setIsSearching] = useState(false); // Will be used to hide tabs
     const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
