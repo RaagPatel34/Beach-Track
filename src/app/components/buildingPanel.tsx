@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { buildingMap } from "../../../lib/data/buildingMap"; // Adjust path as needed
+import { buildingColorMap } from "../../../lib/data/buildingColorMap";
 import { LatLngExpression } from "leaflet";
 import "../../styles/search-results.css";
 import "../../styles/review-list.css";
@@ -50,6 +51,10 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
     const [isFavorited, setIsFavorited] = useState(false);  // Used to determine if classroom is favorited or not.
     const [isLoading, setIsLoading] = useState(false);
     const [isReviewsLoading, setIsReviewsLoading] = useState(false);
+    // Get the color group based on building abbreviation
+    const abbreviation = buildingMap[selectedBuilding.name] || "";
+    // Get the color group based on building abbreviation
+    const colorGroup = buildingColorMap[abbreviation] || "fallback"; // default fallback
 
 
     // Ensure "Overview" is selected when a building is clicked
@@ -178,7 +183,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
     return (
         !selectedClassroom ? (
             <div className="building-info full-sidebar">
-                <h2 className="sidebar-building-name">{selectedBuilding.name}</h2>
+                <h2 className={`sidebar-building-name sidebar-building-name-${colorGroup}`}>{selectedBuilding.name}</h2>
                 <p>{selectedBuilding.description}</p>
 
                 <div className="tab-navigation">
