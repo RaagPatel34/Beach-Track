@@ -1,5 +1,5 @@
 # BeachTrack
-## Update 4 (4/28/2025)
+## Update 4 (4/28-4/29/2025)
 More bug fixes, UI/UX changes/improvements
 
 Summary:
