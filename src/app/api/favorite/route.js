@@ -36,11 +36,31 @@ export async function DELETE(req) {
   }
   
   export async function GET(req) {
-    const { userId } = getAuth(req); 
-    if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const { userId } = getAuth(req);
+    console.log("Fetched userId:", userId);
+  
+    if (!userId) {
+      console.log("No user ID found, unauthorized");
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
   
     await ConnectDB();
+    console.log("Connected to DB");
   
+    // Find all the favorite classroom locations for the user
     const favorites = await favoriteModel.find({ userID: userId });
-    return NextResponse.json(favorites, { status: 200 });
+    console.log("Favorites found:", favorites);
+  
+    if (favorites.length === 0) {
+      console.log("No favorites found for user.");
+      return NextResponse.json([], { status: 200 }); // Return empty array
+    }
+  
+    // Extract classroom locations from the favorites
+    const classroomLocations = favorites.map(fav => fav.classroomLocation);
+    console.log("Favorite classroom locations:", classroomLocations);
+  
+    // Return just the list of locations
+    return NextResponse.json(classroomLocations, { status: 200 });
   }
+  

@@ -59,7 +59,7 @@ export const buildings: Building[] = [
     { name: "Peterson Hall 1", position: [33.77880528516616, -118.11265610964536], description: "" },
     { name: "Peterson Hall 2", position: [33.77932975942252, -118.11255238375634], description: "" },
     { name: "Psychology", position: [33.77941803143673, -118.11417806440079], description: "" },
-    { name: "Social Sciences & Public Affairs", position: [33.78195, -118.1104], description: "" },
+    { name: "Social Sciences and Public Affairs", position: [33.78195, -118.1104], description: "" },
     { name: "Theater Arts", position: [33.776425516356966, -118.11273445204596], description: "" },
     // ADD University Music Center (UMC)
     { name: "University Music Center", position: [33.787440945150564, -118.11225934649768], description: "" },

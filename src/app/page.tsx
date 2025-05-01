@@ -1,13 +1,25 @@
 "use client";
-import EventList from "./components/eventList";
+import EventList from "./components/EventList";
 import SearchPanel from "./components/searchPanel";
 import BuildingPanel from "./components/buildingPanel";
+import Favorites from "./components/favorites";
 import { useState } from "react";
 import "../styles/homepage.css";
+import "../styles/spinner.css";
 import dynamic from "next/dynamic";
 import { LatLngExpression } from "leaflet";
 
-const DynamicMap = dynamic(() => import("./components/Map"), { ssr: false });
+const DynamicMap = dynamic(() => import("./components/Map"), {
+    ssr: false,
+    loading: () => (
+        <div className="map-loading-wrapper">
+            <div className="map-loading-container">
+                <div className="spinner"></div>
+                <div className="loading-text">Loading map...</div>
+            </div>
+        </div>
+    ),
+});
 
 interface Building {
     name: string;
@@ -31,6 +43,7 @@ interface Classroom {
 }
 
 export default function Home() {
+    
     const [activeTab, setActiveTab] = useState("favorite");
     const [isSearching, setIsSearching] = useState(false); // Will be used to hide tabs
     const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
@@ -43,12 +56,11 @@ export default function Home() {
                 {/* Sidebar that gets fully replaced when a building is selected */}
                 <div className={`left-content ${selectedBuilding ? "expanded" : ""}`}>
                     {selectedBuilding ? (
-
                         <BuildingPanel
                             selectedBuilding={selectedBuilding}
                             setSelectedBuilding={setSelectedBuilding}
+                            setActiveTab={setActiveTab}
                         />
-
                     ) : (
                     <>
                         <SearchPanel
@@ -58,25 +70,26 @@ export default function Home() {
                             setSelectedClassroom={setSelectedClassroom}
                             isSearching={isSearching}
                             setIsSearching={setIsSearching}
+                            setActiveTab={setActiveTab}
                         />
 
                         {!isSearching && (
                             <>
                                 <div className="tab-navigation">
                                     <button
-                                        className={`tab-button ${activeTab === "favorite" ? "active" : ""}`}
+                                        className={`tab-button ${activeTab === "favorite" ? "selected" : ""}`}
                                         onClick={() => setActiveTab("favorite")}
                                     >
                                         Favorites
                                     </button>
                                     <button
-                                        className={`tab-button ${activeTab === "openRooms" ? "active" : ""}`}
+                                        className={`tab-button ${activeTab === "openRooms" ? "selected" : ""}`}
                                         onClick={() => setActiveTab("openRooms")}
                                     >
                                         Open Rooms
                                     </button>
                                     <button
-                                        className={`tab-button ${activeTab === "events" ? "active" : ""}`}
+                                        className={`tab-button ${activeTab === "events" ? "selected" : ""}`}
                                         onClick={() => setActiveTab("events")}
                                     >
                                         Events
@@ -84,7 +97,7 @@ export default function Home() {
                                 </div>
 
                                 <div className="content-area">
-                                    {activeTab === "favorite" && <div className="no-content-message">No favorite classrooms</div>}
+                                    {activeTab === "favorite" && <div className="no-content-message"><Favorites /></div>}
                                     {activeTab === "openRooms" && <div className="no-content-message"></div>}
                                     {activeTab === "events" && <div className="no-content-message"><EventList /></div>}
                                 </div>

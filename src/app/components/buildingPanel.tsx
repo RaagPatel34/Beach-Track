@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { buildingMap } from "../../../lib/data/buildingMap"; // Adjust path as needed
+import { buildingColorMap } from "../../../lib/data/buildingColorMap";
 import { LatLngExpression } from "leaflet";
 import "../../styles/search-results.css";
 import "../../styles/review-list.css";
@@ -38,23 +39,32 @@ interface Review {
 interface Props {
     selectedBuilding: Building;
     setSelectedBuilding: (building: Building | null) => void;
+    setActiveTab: (tabName: string) => void;
 }
 
-const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
-    const [activeTab, setActiveTab] = useState("overview");
+const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: Props) => {
+    const [activeTab, setLocalActiveTab] = useState("overview");
     const [buildingClassrooms, setBuildingClassrooms] = useState<Classroom[]>([]);
     const [classroomPage, setClassroomPage] = useState(1);
     const [reviews, setReviews] = useState<Review[]>([]);
     const [selectedClassroom, setSelectedClassroom] = useState<Classroom | null>(null);
     const [isFavorited, setIsFavorited] = useState(false);  // Used to determine if classroom is favorited or not.
+    const [isLoading, setIsLoading] = useState(false);
+    const [isReviewsLoading, setIsReviewsLoading] = useState(false);
+    // Get the color group based on building abbreviation
+    const abbreviation = buildingMap[selectedBuilding.name] || "";
+    // Get the color group based on building abbreviation
+    const colorGroup = buildingColorMap[abbreviation] || "fallback"; // default fallback
+
 
     // Ensure "Overview" is selected when a building is clicked
     useEffect(() => {
-        setActiveTab("overview");
+        setLocalActiveTab("overview");
         fetchBuildingClassrooms(selectedBuilding.name);
     }, [selectedBuilding]);
 
     const fetchBuildingClassrooms = async (buildingName: string) => {
+        setIsLoading(true); 
         try {
             const buildingAbbrev = buildingMap[buildingName] || buildingName;
             const response = await fetch(`/api/search?search=${buildingAbbrev}`);
@@ -63,8 +73,11 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
             setClassroomPage(1);
         } catch (error) {
             console.error("Error fetching classrooms:", error);
+        } finally {
+            setIsLoading(false); 
         }
     };
+    
 
     // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever 
     // selectedClassroom changes. Updates the isFavorited state accorrdingly
@@ -108,13 +121,16 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
     useEffect(() => {
         const fetchReviews = async () => {
             if (activeTab === "reviews" && selectedBuilding) {
+                setIsReviewsLoading(true); // Set loading state to true when fetching reviews
+    
                 const abbreviation = buildingMap[selectedBuilding.name];
                 if (!abbreviation) {
                     console.warn(`Abbreviation not found for: ${selectedBuilding.name}`);
                     setReviews([]);
+                    setIsReviewsLoading(false); // Set loading state to false
                     return;
                 }
-
+    
                 try {
                     const res = await fetch(`/api/review?building=${encodeURIComponent(abbreviation)}`);
                     const data = await res.json();
@@ -123,14 +139,17 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                 } catch (error) {
                     console.error("Error fetching reviews:", error);
                     setReviews([]);
+                } finally {
+                    setIsReviewsLoading(false); // Set loading state to false
                 }
             } else {
                 setReviews([]);
             }
         };
-
+    
         fetchReviews();
     }, [activeTab, selectedBuilding]);
+    
 
     // Helper function that converts military time to AM/PM
     const formatTime = (time: string) => {
@@ -164,21 +183,29 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
     return (
         !selectedClassroom ? (
             <div className="building-info full-sidebar">
-                <h2 className="sidebar-building-name">{selectedBuilding.name}</h2>
+                <h2 className={`sidebar-building-name sidebar-building-name-${colorGroup}`}>{selectedBuilding.name}</h2>
                 <p>{selectedBuilding.description}</p>
 
                 <div className="tab-navigation">
-                    <button className={`tab-button ${activeTab === "overview" ? "active" : ""}`} onClick={() => setActiveTab("overview")}>Overview</button>
-                    <button className={`tab-button ${activeTab === "reviews" ? "active" : ""}`} onClick={() => setActiveTab("reviews")}>Reviews</button>
+                    <button className={`tab-button ${activeTab === "overview" ? "selected" : ""}`} onClick={() => setLocalActiveTab("overview")}>Overview</button>
+                    <button className={`tab-button ${activeTab === "reviews" ? "selected" : ""}`} onClick={() => setLocalActiveTab("reviews")}>Reviews</button>
                 </div>
 
                 {activeTab === "overview" && (
                     <div className="search-results">
-                        <button className="clear-search-button" onClick={() => setSelectedBuilding(null)}>
+                        <button className="clear-search-button" onClick={() => {
+                            setSelectedBuilding(null);
+                            setActiveTab("favorite"); 
+                        }}>
                             Close
                         </button>
-                        {buildingClassrooms.length > 0 ? (
-                            <>
+                        {isLoading ? (
+                                <div className="loading-container">
+                                    <div className="spinner"></div>
+                                    <p className="loading-text">Loading results...</p>
+                                </div>
+                                ) : buildingClassrooms.length > 0 ? (
+                                 <>
                                 <ul>
                                     {buildingClassrooms.slice((classroomPage - 1) * 5, classroomPage * 5).map((classroom, index) => (
                                         <button key={index} onClick={() => setSelectedClassroom(classroom)} className="search-item">
@@ -216,7 +243,12 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding }: Props) => {
                             </div>
 
                             <div className="container">
-                                {reviews.length > 0 ? (
+                                {isReviewsLoading ? (
+                                     <div className="loading-container">
+                                     <div className="spinner"></div>
+                                     <p className="loading-text">Loading reviews...</p>
+                                 </div>
+                                ): reviews.length > 0 ? (
                                     <>
                                         {reviews
                                             ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())

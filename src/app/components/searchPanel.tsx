@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import "../../styles/search-results.css";
 import "../../styles/favorite.css";
+import "../../styles/homepage.css";
+import { buildingMap } from "../../../lib/data/buildingMap"; 
 
 interface Classroom {
     _id: string;
@@ -25,6 +27,7 @@ interface Props {
     setSelectedClassroom: (classroom: Classroom | null) => void;
     isSearching: boolean;
     setIsSearching: (value: boolean) => void;
+    setActiveTab: (tabName: string) => void;
 }
 
 export default function SearchPanel({
@@ -34,15 +37,14 @@ export default function SearchPanel({
     setSelectedClassroom,
     isSearching,
     setIsSearching,
+    setActiveTab,
 }: Props) {
     const [searchTerm, setSearchTerm] = useState("");
-    const [timeFilter, setTimeFilter] = useState(""); // State for the time filter input
-    const [dateFilter, setDateFilter] = useState(""); // State for the date filter input
-    const [showFilters, setShowFilters] = useState(false); // State to control filter visibility
     const [currentPage, setCurrentPage] = useState(1);
     const [isFavorited, setIsFavorited] = useState(false);  // Used to determine if classroom is favorited or not.
+    const [suggestions, setSuggestions] = useState<string[]>([]);
 
-    // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever
+    // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever 
     // selectedClassroom changes. Updates the isFavorited state accorrdingly
     useEffect(() => {
         const checkIfFavorited = async () => {
@@ -84,42 +86,34 @@ export default function SearchPanel({
     const handleSearch = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!searchTerm) return;
-
+    
         try {
-            // Construct the API URL
-            let apiUrl = `/api/search?search=${encodeURIComponent(searchTerm)}`;
-            if (timeFilter) {
-                apiUrl += `&time=${encodeURIComponent(timeFilter)}`; // Add time filter if set
+            let searchValue = searchTerm.trim();
+    
+            // If search term matches a building full name, replace with abbreviation
+            for (const [fullName, abbreviation] of Object.entries(buildingMap)) {
+                if (fullName.toLowerCase() === searchValue.toLowerCase()) {
+                    searchValue = abbreviation;
+                    break;
+                }
             }
-            if (dateFilter) {
-                apiUrl += `&date=${encodeURIComponent(dateFilter)}`; // Add date filter if set
-            }
-
-            const response = await fetch(apiUrl);
+    
+            const response = await fetch(`/api/search?search=${searchValue}`);
             const data = await response.json();
-
-            // Handle potential errors from the API (like invalid time format)
-            if (!response.ok) {
-                console.error("Search API Error:", data.error || response.statusText);
-                // Optionally, display an error message to the user
-                setSearchResults([]); // Clear results on error
-            } else {
-                setSearchResults(data);
-            }
+            setSearchResults(data);
             setCurrentPage(1);
             setIsSearching(true);
         } catch (error) {
             console.error("Error fetching search results:", error);
         }
     };
+    
 
     const clearSearch = () => {
         setSearchResults([]);
         setSearchTerm("");
-        setTimeFilter(""); // Clear the time filter
-        setDateFilter(""); // Clear the date filter
-        setShowFilters(false); // Hide the filters
         setIsSearching(false);
+        setActiveTab("favorite");
     };
 
     const closeClassroomView = () => {
@@ -152,49 +146,61 @@ export default function SearchPanel({
     return (
         <div>
             <div className="search-wrapper">
-                <form onSubmit={handleSearch}>
+                <form onSubmit={handleSearch} className="search-form">
                     <div className="search-bar">
-                        {/* Use menu button to toggle time filter */}
-                        <button
-                            type="button"
-                            className="menu-button"
-                            onClick={() => setShowFilters(!showFilters)} // Toggle visibility
-                            title="Toggle filters"
-                        >
-                            ☰ {/* Or use a filter icon */}
-                        </button>
+                        <button className="menu-button">☰</button>
                         <input
                             type="text"
                             placeholder="Search by building or classroom"
                             value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                setSearchTerm(value);
+                            
+                                if (value.trim() === "") {
+                                    setSuggestions([]);
+                                } else {
+                                    const searchValue = value.toLowerCase();
+                                    const matchedSuggestions = Object.entries(buildingMap as Record<string, string>)
+                                    .flatMap(([fullName, abbreviation]) => [fullName, abbreviation])
+                                    .filter((name) => name.toLowerCase().includes(searchValue))
+                                    .slice(0, 10);
+
+                                    setSuggestions(matchedSuggestions);
+
+                                }
+                            }}
                         />
-                        {/* Removed the separate filter button */}
-                        <button type="submit" className="search-button">🔍</button>
+                            {suggestions.length > 0 && (
+                                <ul className="suggestions-list">
+                                    {suggestions.map((suggestion, index) => (
+                                        <li 
+                                            key={index} 
+                                            onClick={() => {
+                                                setSearchTerm(suggestion);
+                                                setSuggestions([]);
+                                            }}
+                                        >
+                                            {suggestion}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
+                        <button type="submit" className="search-button">
+                            <svg 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                width="20" 
+                                height="20" 
+                                viewBox="0,0,256,256"
+                                fill="#1A1A1A;"
+                            >
+                                <g fill="#1a1a1a" fillRule="nonzero" stroke="none" strokeWidth="1" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="10" strokeDasharray="" strokeDashoffset="0" fontFamily="none" fontWeight="none" fontSize="none" textAnchor="none" ><g transform="scale(5.12,5.12)">
+                                    <path d="M21,3c-9.39844,0 -17,7.60156 -17,17c0,9.39844 7.60156,17 17,17c3.35547,0 6.46094,-0.98437 9.09375,-2.65625l12.28125,12.28125l4.25,-4.25l-12.125,-12.09375c2.17969,-2.85937 3.5,-6.40234 3.5,-10.28125c0,-9.39844 -7.60156,-17 -17,-17zM21,7c7.19922,0 13,5.80078 13,13c0,7.19922 -5.80078,13 -13,13c-7.19922,0 -13,-5.80078 -13,-13c0,-7.19922 5.80078,-13 13,-13z"></path>
+                                </g></g>
+                            </svg>
+                        </button>
                     </div>
-                    {/* Conditionally render Filters BELOW the search bar */}
-                    {showFilters && (
-                        <div className="filters-wrapper"> {/* Wrapper for all filters */}
-                            <div className="filter-item">
-                                <span className="filter-label">Filter by Time: </span>
-                                <input
-                                    type="time"
-                                    className="filter-input time-filter-input"
-                                    value={timeFilter}
-                                    onChange={(e) => setTimeFilter(e.target.value)}
-                                />
-                            </div>
-                            <div className="filter-item">
-                                <span className="filter-label">Filter by Date: </span>
-                                <input
-                                    type="date"
-                                    className="filter-input date-filter-input"
-                                    value={dateFilter}
-                                    onChange={(e) => setDateFilter(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                    )}
                 </form>
             </div>
 
@@ -216,6 +222,10 @@ export default function SearchPanel({
                                     <p className="time-day">Time: {formatTime(result.startTime)} - {formatTime(result.endTime)}, Days: {result.days}</p>
                                 </button>
                             ))}
+
+                            {isSearching && searchResults.length === 0 && (
+                                        <p className="no-classroom-found-search"> No classrooms found for this building. </p>
+                            )}
                         </ul>
                     </div>
 

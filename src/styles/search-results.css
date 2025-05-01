@@ -1,3 +1,49 @@
+/* Styling portion for Overview and Reviews tabs */
+/* Individual tab button styles */
+.tab-button {
+    flex: 1;
+    padding: 15px;
+    background: none;
+    border: none;
+    color: rgb(73, 73, 73);
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.3s, border-bottom 0.3s;  /* Smooth transition */
+}
+
+/* Selected tab styles */
+.tab-button.selected {
+    color: #eba91b;  /* Blue text color for selected tab */
+    border-bottom: 2px solid #eba91b;  /* Blue underline */
+}
+
+/* Hover effect for non-selected tabs */
+.tab-button:hover {
+    background: #e4e4e4;
+}
+
+/* Hover effect for selected tab, ensuring it stays yellow */
+.tab-button.selected:hover {
+    background: #fff1d2;
+    color: #eba91b;  /* Ensure the text color is yellow on hover */
+    border-bottom: 2px solid #eba91b;  /* Maintain the yellow underline */
+}
+
+/* Optional active tab indicator (for mobile or responsive layout) */
+.tab-indicator {
+    height: 3px;
+    width: 30px;
+    background-color: white;
+    margin: 0 auto;
+    margin-bottom: 2px;
+}
+
+.tab-indicator.active {
+    background-color: #eba91b;
+}
+
+
 /* Styling portion for the search results */
 .search-results {
     display: flex;
@@ -224,4 +270,37 @@
 
 .createReview:hover {
     background: #f5c24c;
+}
+
+.search-bar {
+    position: relative; 
+}
+
+.suggestions-list {
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    top: 100%; /* Appear directly below the search bar */
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.suggestions-list li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}
+
+.no-classroom-found-search {
+    padding: 20px;
 }
