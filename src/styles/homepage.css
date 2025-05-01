@@ -38,7 +38,18 @@ body {
     /* Changed from 20px to 0 */
 }
 
-.search-bar {
+/* Apply shared styles to both search and time filter bars */
+.search-bar,
+.time-filter-bar {
+    display: flex;
+    align-items: center;
+    background-color: #eba91b; /* Gold background */
+    padding: 10px 15px;
+    gap: 10px;
+}
+
+/* Style the container for the filters; match the search filters */
+.filters-wrapper {
     display: flex;
     align-items: center;
     background-color: #eba91b;
@@ -50,6 +61,26 @@ body {
     margin-left: 5px;
     margin-right: 5px;
 }
+
+/* Style individual filter items (label + input) */
+.filter-item {
+    display: flex;
+    align-items: center;
+}
+
+/* Style for the filter labels */
+.filter-label {
+    color: #000000; 
+    font-weight: bold;
+}
+
+
+.time-filter-input {
+    background: transparent;
+    border: none;
+    color: #000000;
+}
+
 
 .search-bar input {
     flex: 1;
