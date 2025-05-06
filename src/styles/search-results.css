@@ -272,6 +272,18 @@
     background: #f5c24c;
 }
 
+.createEvent {
+    color: white;
+    background: #eba91b;
+    font-weight: bold;
+    border-radius: 15px;
+    padding: 10px 20px; /* Adjust padding as needed */
+}
+
+.createEvent:hover {
+    background: #f5c24c;
+}
+
 .search-bar {
     position: relative; 
 }
