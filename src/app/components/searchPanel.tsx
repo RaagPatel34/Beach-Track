@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import "../../styles/search-results.css";
 import "../../styles/favorite.css";
 import "../../styles/homepage.css";
-import { buildingMap } from "../../../lib/data/buildingMap"; 
+import { buildingMap } from "../../../lib/data/buildingMap";
 
 interface Classroom {
     _id: string;
@@ -86,10 +86,10 @@ export default function SearchPanel({
     const handleSearch = async (event: React.FormEvent) => {
         event.preventDefault();
         if (!searchTerm) return;
-    
+
         try {
             let searchValue = searchTerm.trim();
-    
+
             // If search term matches a building full name, replace with abbreviation
             for (const [fullName, abbreviation] of Object.entries(buildingMap)) {
                 if (fullName.toLowerCase() === searchValue.toLowerCase()) {
@@ -97,7 +97,7 @@ export default function SearchPanel({
                     break;
                 }
             }
-    
+
             const response = await fetch(`/api/search?search=${searchValue}`);
             const data = await response.json();
             setSearchResults(data);
@@ -107,7 +107,7 @@ export default function SearchPanel({
             console.error("Error fetching search results:", error);
         }
     };
-    
+
 
     const clearSearch = () => {
         setSearchResults([]);
@@ -156,42 +156,42 @@ export default function SearchPanel({
                             onChange={(e) => {
                                 const value = e.target.value;
                                 setSearchTerm(value);
-                            
+
                                 if (value.trim() === "") {
                                     setSuggestions([]);
                                 } else {
                                     const searchValue = value.toLowerCase();
                                     const matchedSuggestions = Object.entries(buildingMap as Record<string, string>)
-                                    .flatMap(([fullName, abbreviation]) => [fullName, abbreviation])
-                                    .filter((name) => name.toLowerCase().includes(searchValue))
-                                    .slice(0, 10);
+                                        .flatMap(([fullName, abbreviation]) => [fullName, abbreviation])
+                                        .filter((name) => name.toLowerCase().includes(searchValue))
+                                        .slice(0, 10);
 
                                     setSuggestions(matchedSuggestions);
 
                                 }
                             }}
                         />
-                            {suggestions.length > 0 && (
-                                <ul className="suggestions-list">
-                                    {suggestions.map((suggestion, index) => (
-                                        <li 
-                                            key={index} 
-                                            onClick={() => {
-                                                setSearchTerm(suggestion);
-                                                setSuggestions([]);
-                                            }}
-                                        >
-                                            {suggestion}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
+                        {suggestions.length > 0 && (
+                            <ul className="suggestions-list">
+                                {suggestions.map((suggestion, index) => (
+                                    <li
+                                        key={index}
+                                        onClick={() => {
+                                            setSearchTerm(suggestion);
+                                            setSuggestions([]);
+                                        }}
+                                    >
+                                        {suggestion}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
 
                         <button type="submit" className="search-button">
-                            <svg 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                width="20" 
-                                height="20" 
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
                                 viewBox="0,0,256,256"
                                 fill="#1A1A1A;"
                             >
@@ -224,7 +224,7 @@ export default function SearchPanel({
                             ))}
 
                             {isSearching && searchResults.length === 0 && (
-                                        <p className="no-classroom-found-search"> No classrooms found for this building. </p>
+                                <p className="no-classroom-found-search"> No classrooms found for this building. </p>
                             )}
                         </ul>
                     </div>
@@ -295,9 +295,18 @@ export default function SearchPanel({
                     </p>
                     <p><span className="idText">CourseID:</span><span className="onClickClassroomCourseID"> {selectedClassroom.courseID}</span></p>
 
-                    <a href={`/write-review?classroom=${encodeURIComponent(selectedClassroom.location)}`}>
-                        <button className="createReview">Click to Review Classroom!</button>
-                    </a>
+                    <div className="flex gap-4">
+                        <a href={`/write-review?classroom=${encodeURIComponent(selectedClassroom.location)}`}
+                            className="createReview"
+                        >
+                           Review Classroom!
+                        </a>
+                        <a href={`/create-event?classroom=${encodeURIComponent(selectedClassroom.location)}`}
+                            className="createEvent"
+                        >
+                            Create an Event!
+                        </a>
+                    </div>
                 </div>
             )}
         </div>
