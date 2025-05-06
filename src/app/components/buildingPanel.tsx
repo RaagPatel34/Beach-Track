@@ -64,7 +64,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
     }, [selectedBuilding]);
 
     const fetchBuildingClassrooms = async (buildingName: string) => {
-        setIsLoading(true); 
+        setIsLoading(true);
         try {
             const buildingAbbrev = buildingMap[buildingName] || buildingName;
             const response = await fetch(`/api/search?search=${buildingAbbrev}`);
@@ -74,10 +74,10 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
         } catch (error) {
             console.error("Error fetching classrooms:", error);
         } finally {
-            setIsLoading(false); 
+            setIsLoading(false);
         }
     };
-    
+
 
     // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever 
     // selectedClassroom changes. Updates the isFavorited state accorrdingly
@@ -122,7 +122,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
         const fetchReviews = async () => {
             if (activeTab === "reviews" && selectedBuilding) {
                 setIsReviewsLoading(true); // Set loading state to true when fetching reviews
-    
+
                 const abbreviation = buildingMap[selectedBuilding.name];
                 if (!abbreviation) {
                     console.warn(`Abbreviation not found for: ${selectedBuilding.name}`);
@@ -130,7 +130,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
                     setIsReviewsLoading(false); // Set loading state to false
                     return;
                 }
-    
+
                 try {
                     const res = await fetch(`/api/review?building=${encodeURIComponent(abbreviation)}`);
                     const data = await res.json();
@@ -146,10 +146,10 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
                 setReviews([]);
             }
         };
-    
+
         fetchReviews();
     }, [activeTab, selectedBuilding]);
-    
+
 
     // Helper function that converts military time to AM/PM
     const formatTime = (time: string) => {
@@ -195,17 +195,17 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
                     <div className="search-results">
                         <button className="clear-search-button" onClick={() => {
                             setSelectedBuilding(null);
-                            setActiveTab("favorite"); 
+                            setActiveTab("favorite");
                         }}>
                             Close
                         </button>
                         {isLoading ? (
-                                <div className="loading-container">
-                                    <div className="spinner"></div>
-                                    <p className="loading-text">Loading results...</p>
-                                </div>
-                                ) : buildingClassrooms.length > 0 ? (
-                                 <>
+                            <div className="loading-container">
+                                <div className="spinner"></div>
+                                <p className="loading-text">Loading results...</p>
+                            </div>
+                        ) : buildingClassrooms.length > 0 ? (
+                            <>
                                 <ul>
                                     {buildingClassrooms.slice((classroomPage - 1) * 5, classroomPage * 5).map((classroom, index) => (
                                         <button key={index} onClick={() => setSelectedClassroom(classroom)} className="search-item">
@@ -244,11 +244,11 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
 
                             <div className="container">
                                 {isReviewsLoading ? (
-                                     <div className="loading-container">
-                                     <div className="spinner"></div>
-                                     <p className="loading-text">Loading reviews...</p>
-                                 </div>
-                                ): reviews.length > 0 ? (
+                                    <div className="loading-container">
+                                        <div className="spinner"></div>
+                                        <p className="loading-text">Loading reviews...</p>
+                                    </div>
+                                ) : reviews.length > 0 ? (
                                     <>
                                         {reviews
                                             ?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -322,9 +322,18 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
                     <span className="onClickClassroomLocation">{selectedClassroom.room}</span>
                 </p>
                 <p><span className="idText">CourseID:</span> <span className="onClickClassroomCourseID">{selectedClassroom.courseID}</span></p>
-                <a href={`/write-review?classroom=${encodeURIComponent(selectedClassroom.location)}`}>
-                    <button className="createReview">Click to Review Classroom!</button>
-                </a>
+                <div className="flex gap-4">
+                    <a href={`/write-review?classroom=${encodeURIComponent(selectedClassroom.location)}`}
+                        className="createReview"
+                    >
+                        Review Classroom!
+                    </a>
+                    <a href={`/create-event?classroom=${encodeURIComponent(selectedClassroom.location)}`}
+                        className="createEvent"
+                    >
+                        Create an Event!
+                    </a>
+                </div>
             </div>
         )
     );
