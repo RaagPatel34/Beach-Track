@@ -1,6 +1,7 @@
 "use client";
 import "../../styles/create-event.css";
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation'; // Import useSearchParams
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { useUser } from "@clerk/nextjs";
@@ -21,20 +22,18 @@ export default function CreateEvent() {
 
   const [eventType, setEventType] = useState("");
 
-    /* Use this to re-render the useUser since user may be originally undefined before clerk can load
+  const searchParams = useSearchParams(); // Hook to get URL params
+  const initialClassroom = searchParams.get('classroom') || ""; // Get classroom from URL, default to ""
+  const [classroom, setClassroom] = useState(initialClassroom);
+
+
+  /* Use this to re-render the useUser since user may be originally undefined before clerk can load
      the data */
   useEffect(() => {
     if (user?.username) {
       setAuthor(user.username);
     }
   }, [user]);
-
-  /*
-  const [data, setData] = useState({
-    author: "",
-    location: "",
-  });
-  */
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(event.target.value.slice(0, maxLength));
@@ -47,13 +46,6 @@ export default function CreateEvent() {
       setEndTime(value);
     }
   };
-
-  /*
-  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
-    setData((prevData) => ({ ...prevData, [name]: name === 'title' ? Number(value) : value, }));
-  }
-  */
 
   const onSubmitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,7 +75,7 @@ export default function CreateEvent() {
     formData.append('date', selectedDate);
     formData.append('startTime', startTime);
     formData.append('endTime', endTime);
-    formData.append('location', "someplace");
+    formData.append('location', classroom);
     formData.append('description', description);
 
     try {
@@ -100,7 +92,10 @@ export default function CreateEvent() {
         setSelectedDate("");
         setStartTime("");
         setEndTime("");
+        setClassroom("");
         setDescription("");
+
+        window.location.href = "/";
       } else {
         toast.error("Error: Could not submit");
       }
@@ -120,7 +115,7 @@ export default function CreateEvent() {
 
             <div className="course-info">
               <span className="status-dot"></span>
-              <span className="course-code">Room-Number</span>
+              <span className="course-code">{classroom || "Classroom"}</span>
             </div>
 
             <div className="gray-container">
@@ -197,7 +192,13 @@ export default function CreateEvent() {
               </div>
             </div>
 
-            <button className="back-button">Back</button>
+            <button
+              type="button"
+              className="back-button"
+              onClick={() => window.location.href = "/"}
+            >
+              Back
+            </button>
             <button type="submit" className="create-button">
               Create
             </button>
