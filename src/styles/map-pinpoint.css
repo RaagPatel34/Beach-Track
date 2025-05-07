@@ -1,0 +1,71 @@
+/* Styling for map pinpoints */
+.building-pin {
+    
+    border: 2px solid white;
+    border-radius: 12px;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+    width: fit-content;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+/* Specific colors */
+.building-pin-purple {
+    background-image: linear-gradient(to right, #af67df, #670ba4);
+}
+
+.building-pin-darkblue {
+    background-image: linear-gradient(to right, #0069e0, #00499c);
+}
+
+.building-pin-green {
+    background-image: linear-gradient(to right, #2f9c08, #1d6702);
+}
+
+.building-pin-orange {
+    background-image: linear-gradient(to right, #eb840e, #bc6400);
+}
+
+.building-pin-teal {
+    background-image: linear-gradient(to right, #0cd09c, #057c5c);
+}
+
+.building-pin-pink {
+    background-image: linear-gradient(to right, #d876c0, #a85994);
+}
+
+.building-pin-lightgreen {
+    background-image: linear-gradient(to right, #96d060, #48771c);
+}
+
+.building-pin-lightblue {
+    background-image: linear-gradient(to right, #64b7ff, #4986ba);
+}
+
+.building-pin-yellow {
+    background-image: linear-gradient(to right, #FFCC00, #8d6d0d);
+}
+
+.building-pin-magenta {
+    background-image: linear-gradient(to right, #bc1278, #95075c);
+}
+
+.building-pin-red {
+    background-image: linear-gradient(to right, #d42121, #941616);
+}
+
+.building-pin-lavender {
+    background-image: linear-gradient(to right, #d3a5e4, #7c5789);
+}
+
+.building-pin-fallback {
+    background-image: linear-gradient(to right, #FFCC00, #8d6d0d);
+}

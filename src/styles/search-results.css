@@ -1,0 +1,318 @@
+/* Styling portion for Overview and Reviews tabs */
+/* Individual tab button styles */
+.tab-button {
+    flex: 1;
+    padding: 15px;
+    background: none;
+    border: none;
+    color: rgb(73, 73, 73);
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.3s, border-bottom 0.3s;  /* Smooth transition */
+}
+
+/* Selected tab styles */
+.tab-button.selected {
+    color: #eba91b;  /* Blue text color for selected tab */
+    border-bottom: 2px solid #eba91b;  /* Blue underline */
+}
+
+/* Hover effect for non-selected tabs */
+.tab-button:hover {
+    background: #e4e4e4;
+}
+
+/* Hover effect for selected tab, ensuring it stays yellow */
+.tab-button.selected:hover {
+    background: #fff1d2;
+    color: #eba91b;  /* Ensure the text color is yellow on hover */
+    border-bottom: 2px solid #eba91b;  /* Maintain the yellow underline */
+}
+
+/* Optional active tab indicator (for mobile or responsive layout) */
+.tab-indicator {
+    height: 3px;
+    width: 30px;
+    background-color: white;
+    margin: 0 auto;
+    margin-bottom: 2px;
+}
+
+.tab-indicator.active {
+    background-color: #eba91b;
+}
+
+
+/* Styling portion for the search results */
+.search-results {
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    gap: 20px;
+}
+
+.search-item {
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: center; /* Center title horizontally */
+    color: black;
+    width: 100%;
+    height: 70px;
+    border-radius: 10px;
+    background: rgb(228, 227, 227);
+    margin-bottom: 10px;
+    padding: 10px;    
+}
+
+.search-item:hover{
+    background: rgb(193, 192, 192);
+}
+
+.pagination-buttons button {
+    background: #eba91b;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 15px;
+    margin-left: 70px;
+}
+
+.pagination-buttons2 {
+    display: flex;
+    justify-content: center;
+    gap: 50px; /* spacing between buttons */
+}
+
+.pagination-buttons2 button {
+    background: #eba91b;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+
+
+.pagination-buttons2 button:hover {
+    background: #f5c24c;
+}
+
+.pagination-buttons button:hover {
+    background: #f5c24c;
+}
+
+.clear-button-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.clear-search-button {
+    margin: 0 auto;
+    color: white;
+    background: red;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 15px;
+    width: 90%;
+}
+
+.clear-search-button:hover {
+    background: rgb(255, 77, 77);
+}
+
+
+.course-name {
+    font-weight: bold;
+    font-size: 16.5px;
+}
+
+.location-name {
+    font-size: 13.5px;
+}
+
+.time-day {
+    font-size: 13.5px;
+}
+
+/* Styling portion for when user clicks on one of the searched classrooms*/
+.onClickClassroomRectangle {
+    width: 100%; /* Adjust as needed */
+    height: 594px;
+    padding: 5px; /* Adds space inside the rectangle */
+    gap: 15px;
+    color: black;
+    background: rgb(228, 227, 227);
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: flex-start; /* Center title horizontally */
+    position: relative; /* Needed for absolute  positioning of child elements*/
+}
+
+.onClickClassroomRectangle2 {
+    width: 100%; /* Adjust as needed */
+    min-height: 648px;
+    padding: 5px; /* Adds space inside the rectangle */
+    gap: 15px;
+    color: black;
+    background: rgb(228, 227, 227);
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: flex-start; /* Center title horizontally */
+    position: relative; /* Needed for absolute  positioning of child elements*/
+}
+
+.closeClassroomView {
+    position: relative;
+    right: -150px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 3px 7px; /* Sizing of the border around the "X"*/
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.closeClassroomView:hover{
+    background: rgb(255, 77, 77);
+}
+
+.onClickClassroomTitle {
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.onClickClassroomSectionNum {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.sectionText {
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomCourseID {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.idText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomProf {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.profText {
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomDate {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.dayText {
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomStartEnd {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.startText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.endText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.onClickClassroomLocation {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.buildingText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+.roomText{
+    font-size: 16.5px;
+    text-decoration: underline;
+}
+
+/* Button styling*/
+.createReview {
+    color: white;
+    background: #eba91b;
+    font-weight: bold;
+    border-radius: 15px;
+    padding: 10px 20px; /* Adjust padding as needed */
+}
+
+.createReview:hover {
+    background: #f5c24c;
+}
+
+.createEvent {
+    color: white;
+    background: #eba91b;
+    font-weight: bold;
+    border-radius: 15px;
+    padding: 10px 20px; /* Adjust padding as needed */
+}
+
+.createEvent:hover {
+    background: #f5c24c;
+}
+
+.search-bar {
+    position: relative; 
+}
+
+.suggestions-list {
+    background: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    top: 100%; /* Appear directly below the search bar */
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.suggestions-list li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-list li:hover {
+    background-color: #f0f0f0;
+}
+
+.no-classroom-found-search {
+    padding: 20px;
+}

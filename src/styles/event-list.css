@@ -1,0 +1,127 @@
+.mainContainer{
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center center horizontally */
+    gap: 10px;
+}
+
+/* Styling for the display title */
+.rectangleTitle{
+    width: 100%; /* Adjust as needed */
+    height: 80px;
+    border-radius: 30px;
+    background: rgb(0, 0, 0);
+    color: white;
+    display: flex; /* Ensure content inside is properly displayed */
+    align-items: center; /* Align title vertically */
+    justify-content: center; /* Center title horizontally */
+    font-weight: bold;
+    font-size: 19px;
+}
+
+/* Styling for the display of all the events */
+.container{
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center center horizontally */
+    gap: 20px;
+    padding: 30px;
+}
+
+.rectangle{
+    width: 100%; /* Adjust as needed */
+    height: 70px;
+    border-radius: 10px;
+    background: rgb(228, 227, 227);
+    color: black;
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: center; /* Center title horizontally */
+}
+
+.rectangle:hover{
+    background: rgb(193, 192, 192);
+}
+
+.eventTitle{
+    font-weight: bold;
+    font-size: 18px
+}
+
+.eventAuthor{
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.onClickRectangle{
+    width: 100%; /* Adjust as needed */
+    height: 500px;
+    padding: 20px; /* Adds space inside the rectangle */
+    border-radius: 5px;
+    background: rgb(228, 227, 227);
+    display: flex; /* Ensure content inside is properly displayed */
+    flex-direction: column; /* Aligns the children in a column rather than a row*/
+    align-items: center; /* Align title vertically */
+    justify-content: flex-start; /* Center title horizontally */
+    gap: 5px;
+    position: relative; /* Needed for absolute  positioning of child elements*/
+}
+
+/* The "X" button that exists the selected event */
+.closeView{
+    position: relative;
+    right: -150px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 2px 6px; /* Sizing of the border around the "X"*/
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.closeView:hover{
+    background: rgb(255, 77, 77);
+}
+
+.onClickTitle{
+    font-weight: bold;
+    font-size: 24px
+}
+
+.onClickAuthor{
+    font-style: italic;
+    font-size: 14px;
+}
+
+.onClickDate{
+    font-style: italic;
+    font-size: 18px;
+}
+
+.onClickStartEnd{
+    font-style: italic;
+    font-size: 18px;
+}
+
+.onClickDescription{
+    font-size: 14px;
+    word-wrap: break-word; /* Ensures long words don't overflow */
+    padding: 10px; /* Adds spacing inside the description */
+    max-width: 100%;
+}
+
+/* Modifies the create event button */
+.goToBulletin{
+    color: white;
+    background: #eba91b;
+    display: block;  /* Centering*/
+    margin: 0 auto;  /* Centering*/
+    padding: 10px 20px; /* Adjust padding as needed */
+    border-radius: 15px; /* Higher value = more rounded corners */
+    font-weight: bold;
+}
+
+.goToBulletin:hover{
+    background: #f5c24c;
+}

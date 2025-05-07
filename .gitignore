@@ -1,0 +1,4 @@
+node_modules
+.clerk/.tmp
+.next
+.env*.local
