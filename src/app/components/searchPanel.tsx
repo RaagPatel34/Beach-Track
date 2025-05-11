@@ -40,11 +40,14 @@ export default function SearchPanel({
     setActiveTab,
 }: Props) {
     const [searchTerm, setSearchTerm] = useState("");
+    const [timeFilter, setTimeFilter] = useState(""); // State for the time filter input
+    const [dateFilter, setDateFilter] = useState(""); // State for the date filter input
+    const [showFilters, setShowFilters] = useState(false); // State to control filter visibility
     const [currentPage, setCurrentPage] = useState(1);
     const [isFavorited, setIsFavorited] = useState(false);  // Used to determine if classroom is favorited or not.
     const [suggestions, setSuggestions] = useState<string[]>([]);
 
-    // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever 
+    // The useEffect hook is used to check if the current classroom is favorited or not. Will run whenever
     // selectedClassroom changes. Updates the isFavorited state accorrdingly
     useEffect(() => {
         const checkIfFavorited = async () => {
@@ -98,7 +101,16 @@ export default function SearchPanel({
                 }
             }
 
-            const response = await fetch(`/api/search?search=${searchValue}`);
+            // Construct the API URL with potential time and date filters
+            let apiUrl = `/api/search?search=${encodeURIComponent(searchValue)}`;
+            if (timeFilter) {
+                apiUrl += `&time=${encodeURIComponent(timeFilter)}`; // Add time filter if set
+            }
+            if (dateFilter) {
+                apiUrl += `&date=${encodeURIComponent(dateFilter)}`; // Add date filter if set
+            }
+
+            const response = await fetch(apiUrl);
             const data = await response.json();
             setSearchResults(data);
             setCurrentPage(1);
@@ -112,6 +124,9 @@ export default function SearchPanel({
     const clearSearch = () => {
         setSearchResults([]);
         setSearchTerm("");
+        setTimeFilter(""); // Clear the time filter
+        setDateFilter(""); // Clear the date filter
+        setShowFilters(false); // Hide the filters
         setIsSearching(false);
         setActiveTab("favorite");
     };
@@ -148,7 +163,14 @@ export default function SearchPanel({
             <div className="search-wrapper">
                 <form onSubmit={handleSearch} className="search-form">
                     <div className="search-bar">
-                        <button className="menu-button">☰</button>
+                        <button
+                            className="menu-button"
+                            type="button"
+                            onClick={() => setShowFilters(!showFilters)}
+                            title="Toggle Filters"
+                        >
+                            ☰
+                        </button>
                         <input
                             type="text"
                             placeholder="Search by building or classroom"
@@ -201,6 +223,28 @@ export default function SearchPanel({
                             </svg>
                         </button>
                     </div>
+                    {showFilters && (
+                        <div className="filters-wrapper">
+                            <div className="filter-item">
+                                <span className="filter-label">Filter by Time: </span>
+                                <input
+                                    type="time"
+                                    className="filter-input time-filter-input"
+                                    value={timeFilter}
+                                    onChange={(e) => setTimeFilter(e.target.value)}
+                                />
+                            </div>
+                            <div className="filter-item">
+                                <span className="filter-label">Filter by Date: </span>
+                                <input
+                                    type="date"
+                                    className="filter-input date-filter-input"
+                                    value={dateFilter}
+                                    onChange={(e) => setDateFilter(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    )}
                 </form>
             </div>
 
