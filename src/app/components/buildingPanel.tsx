@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { buildingMap } from "../../../lib/data/buildingMap"; // Adjust path as needed
 import { buildingColorMap } from "../../../lib/data/buildingColorMap";
+import { useUser } from "@clerk/nextjs";
 import { LatLngExpression } from "leaflet";
 import "../../styles/search-results.css";
 import "../../styles/review-list.css";
@@ -55,6 +56,8 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
     const abbreviation = buildingMap[selectedBuilding.name] || "";
     // Get the color group based on building abbreviation
     const colorGroup = buildingColorMap[abbreviation] || "fallback"; // default fallback
+    const { isSignedIn } = useUser();
+
 
 
     // Ensure "Overview" is selected when a building is clicked
@@ -83,7 +86,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
     // selectedClassroom changes. Updates the isFavorited state accorrdingly
     useEffect(() => {
         const checkIfFavorited = async () => {
-            if (!selectedClassroom) return;
+            if (!selectedClassroom || !isSignedIn) return;
 
             try {
                 // Sends a GET request to retrieve the list of favorited classrooms
@@ -116,7 +119,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
         };
 
         checkIfFavorited();
-    }, [selectedClassroom]);
+    }, [selectedClassroom, isSignedIn]);
 
     useEffect(() => {
         const fetchReviews = async () => {
