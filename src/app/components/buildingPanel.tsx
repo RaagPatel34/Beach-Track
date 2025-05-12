@@ -108,9 +108,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
                     return;
                 }  // Ensures results are an array
 
-                const match = favorites.find(
-                    (fav: any) => fav.classroomLocation === selectedClassroom.location
-                );  // Checks if the favorited classrooms match the currently selected one
+                const match = favorites.includes(selectedClassroom.location);  // Checks if the favorited classrooms match the currently selected one
 
                 setIsFavorited(!!match);
             } catch (err) {
@@ -285,7 +283,7 @@ const BuildingPanel = ({ selectedBuilding, setSelectedBuilding, setActiveTab }: 
                             if (!selectedClassroom) return;
 
                             try {
-                                // Sends a request to /api/favorite. If favorite is truem uses DELETE, else uses POST
+                                // Sends a request to /api/favorite. If favorite is true uses DELETE, else uses POST
                                 const res = await fetch(`/api/favorite`, {
                                     method: isFavorited ? "DELETE" : "POST",
                                     headers: { "Content-Type": "application/json" },
