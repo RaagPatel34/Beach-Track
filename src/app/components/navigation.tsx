@@ -21,17 +21,21 @@ export const Navigation = () => {
             </div>
 
             {/* Navigation and user actions */}
-            <div className="flex items-center space-x-6">
+            <div className="nav-buttons flex items-center space-x-6">
                 <a
                     href="/"
-                    className={`${
-                        pathname === "/" ? "font-bold" : "text-blue-500"
+                    className={`${      
+                        pathname === "/" ? "font-bold text-white" : "text-blue-400 hover:underline"
                     }`}
                 >
                     Home
                 </a>
                 <SignedOut>
-                    <SignInButton mode="modal" />
+                    <SignInButton mode="modal">
+                        <button className="text-white text-base cursor-pointer">
+                            Sign in
+                        </button>
+                    </SignInButton>
                 </SignedOut>
                 <SignedIn>
                     <UserButton />
